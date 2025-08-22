@@ -1,0 +1,18 @@
+<svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Law Firm 4 - Shield Design -->
+  <rect width="200" height="80" fill="#F8F9FA"/>
+  
+  <!-- Shield Icon -->
+  <g transform="translate(20, 15)">
+    <!-- Shield shape -->
+    <path d="M20 10 L35 10 L35 25 L27.5 35 L20 25 L20 10" fill="#2C3E50"/>
+    <!-- Shield inner design -->
+    <rect x="24" y="14" width="2" height="15" fill="#ECF0F1"/>
+    <rect x="29" y="14" width="2" height="15" fill="#ECF0F1"/>
+    <rect x="22" y="18" width="11" height="2" fill="#ECF0F1"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="65" y="35" font-family="Palatino, serif" font-size="16" fill="#2C3E50" font-weight="bold">LEGAL DEFENSE</text>
+  <text x="65" y="50" font-family="Arial, sans-serif" font-size="13" fill="#546E7A">Professional Services</text>
+</svg>

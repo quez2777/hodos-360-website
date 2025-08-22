@@ -1,0 +1,24 @@
+<svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Law Firm 1 - Scales of Justice Design -->
+  <rect width="200" height="80" fill="#F8F9FA"/>
+  
+  <!-- Scales of Justice Icon -->
+  <g transform="translate(20, 20)">
+    <!-- Balance beam -->
+    <rect x="18" y="10" width="4" height="30" fill="#2C3E50"/>
+    <rect x="5" y="8" width="30" height="4" fill="#2C3E50"/>
+    
+    <!-- Left scale -->
+    <path d="M5 12 L5 20 L10 25 L15 20 L15 12" stroke="#2C3E50" stroke-width="2" fill="none"/>
+    
+    <!-- Right scale -->
+    <path d="M25 12 L25 20 L30 25 L35 20 L35 12" stroke="#2C3E50" stroke-width="2" fill="none"/>
+    
+    <!-- Base -->
+    <rect x="15" y="38" width="10" height="2" fill="#2C3E50"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="65" y="35" font-family="Georgia, serif" font-size="18" fill="#2C3E50" font-weight="bold">LAW FIRM</text>
+  <text x="65" y="50" font-family="Arial, sans-serif" font-size="14" fill="#546E7A">Partners & Associates</text>
+</svg>

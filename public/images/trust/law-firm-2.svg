@@ -1,0 +1,18 @@
+<svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Law Firm 2 - Gavel Design -->
+  <rect width="200" height="80" fill="#F8F9FA"/>
+  
+  <!-- Gavel Icon -->
+  <g transform="translate(20, 25)">
+    <!-- Gavel head -->
+    <rect x="5" y="10" width="25" height="10" rx="2" fill="#34495E" transform="rotate(-30 17.5 15)"/>
+    <!-- Gavel handle -->
+    <rect x="22" y="8" width="20" height="6" rx="1" fill="#2C3E50" transform="rotate(-30 32 11)"/>
+    <!-- Sound block -->
+    <ellipse cx="15" cy="28" rx="8" ry="3" fill="#546E7A"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="65" y="35" font-family="Times New Roman, serif" font-size="16" fill="#2C3E50" font-weight="bold">LEGAL COUNSEL</text>
+  <text x="65" y="50" font-family="Arial, sans-serif" font-size="13" fill="#546E7A">Est. 1995</text>
+</svg>

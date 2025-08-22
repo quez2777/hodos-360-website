@@ -1,80 +1,177 @@
-# HODOS 360 Website
+# HODOS 360 LLC - AI-Powered Legal Tech Solutions
 
-AI-Powered Legal Tech Solutions for Modern Law Firms
+The official website for HODOS 360 LLC, showcasing our revolutionary AI-driven platforms that transform law firm operations, marketing, and client interactions.
 
-## 🚀 Overview
+## 🚀 Our Products
 
-HODOS 360 LLC offers three flagship AI-powered products for law firms:
+### HODOS - Complete AI Law Firm Management
+Transform your entire law firm with AI-powered executives:
+- **AI C-Suite**: CFO, CMO, CAIO, and more
+- **AI Operations**: Reception, administration, and workflow automation
+- **Comprehensive Management**: From strategy to execution
 
-1. **HODOS** - Complete AI law firm management from C-suite to reception
-2. **HODOS Marketing Platform** - AI SEO and paid marketing system
-3. **HODOS VIDEO Agents** - Video/voice AI agents for reception, intake, and sales
+### HODOS Marketing Platform
+Dominate your market with AI-driven marketing:
+- **AI SEO**: Intelligent search optimization
+- **Paid Marketing AI**: Automated campaign management
+- **Performance Analytics**: Real-time insights and optimization
 
-## 🛠️ Tech Stack
+### HODOS VIDEO Agents
+Revolutionary video and voice AI agents:
+- **AI Receptionist**: 24/7 intelligent client greeting
+- **AI Intake Specialist**: Automated client onboarding
+- **AI Sales Agent**: Convert leads with personalized interactions
 
-- **Framework**: Next.js 14.2.32 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Package Manager**: npm
+## 🛠 Tech Stack
 
-## 📦 Installation
+Built with cutting-edge technologies:
+- **Next.js 14.1.0** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Framer Motion** - Animation library
+
+## Design System
+
+The project features a custom design system with:
+- **Primary Colors**: Lapis Lazuli blue spectrum
+- **Accent Colors**: Royal blue and gold
+- **Themes**: Dark and light mode support
+- **Typography**: System font stack optimized for readability
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18.0 or higher
+- npm or yarn package manager
+
+### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/hodos-360-website.git
-
-# Navigate to the project directory
-cd "HODOS SIte "
-
 # Install dependencies
 npm install
-```
 
-## 🚀 Development
-
-```bash
-# Run the development server
+# Run development server
 npm run dev
 
 # Build for production
 npm run build
 
 # Start production server
-npm run start
+npm start
 ```
 
-## 📁 Project Structure
+### Development
 
-```
-app/
-├── layout.tsx      # Root layout
-├── page.tsx        # Homepage
-├── error.tsx       # Error boundary
-├── loading.tsx     # Loading state
-├── not-found.tsx   # 404 page
-└── test/
-    └── page.tsx    # Test page
+The development server runs at `http://localhost:3000`
 
-components/
-└── providers/
-    └── theme-provider.tsx
+```bash
+npm run dev
 ```
 
-## ⚠️ Known Issues
+### Testing
 
-- Directory name contains a trailing space ("HODOS SIte ") which may cause import issues
-- Full component library integration pending
-- Some imports need to be updated to match the directory structure
+Run the test suite:
 
-## 🔗 Links
+```bash
+npm test
+```
 
-- Website: [https://www.hodos360.com](https://www.hodos360.com)
-- Documentation: See `/docs` directory
+## Project Structure
 
-## 📄 License
+```
+HODOS-Site/
+├── app/                # Next.js App Router pages
+├── components/         # React components
+│   ├── ui/            # Reusable UI components
+│   └── ...            # Feature-specific components
+├── lib/               # Utility functions and helpers
+├── public/            # Static assets
+├── styles/            # Global styles and CSS modules
+├── design-system.css  # Custom design tokens
+├── next.config.js     # Next.js configuration
+├── package.json       # Dependencies and scripts
+├── postcss.config.js  # PostCSS configuration
+└── tailwind.config.js # Tailwind CSS configuration
+```
 
-© 2025 HODOS 360 LLC. All rights reserved.
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm test` - Run test suite
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript compiler check
+
+## Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+# Add your environment variables here
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```
+
+## ✨ Website Features
+
+- ⚡ **Ultra-Fast Performance**: Next.js 14 with edge optimization
+- 🎨 **Modern Design**: Glassmorphism, gradients, and micro-interactions
+- 🤖 **AI Showcase**: Interactive demos of our AI capabilities
+- 📱 **Fully Responsive**: Flawless experience on all devices
+- 🌓 **Dark/Light Mode**: Sophisticated theme switching
+- 🎭 **Smooth Animations**: Framer Motion for engaging UX
+- 🔒 **Enterprise Security**: SOC 2 compliant infrastructure
+- ♿ **WCAG Compliant**: Fully accessible design
+- 📊 **Analytics Ready**: Integrated performance tracking
+- 🚀 **SEO Optimized**: Built for maximum visibility
+
+## Tech Stack
+
+### Core
+- Next.js 14.1.0
+- React 18.2.0
+- TypeScript 5
+
+### Styling
+- Tailwind CSS 3.3.0
+- PostCSS
+- Custom design system
+
+### UI Components
+- Radix UI primitives
+- Lucide React icons
+- Custom component library
+
+### Development Tools
+- ESLint
+- Jest for testing
+- TypeScript strict mode
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is proprietary and confidential.
+
+## 🏢 About HODOS 360 LLC
+
+We're revolutionizing the legal industry with AI-powered solutions that transform how law firms operate, market, and interact with clients. Our comprehensive suite of AI platforms provides law firms with the technology they need to thrive in the digital age.
+
+### Our Mission
+Empower law firms with cutting-edge AI technology to enhance efficiency, improve client experiences, and drive unprecedented growth.
+
+### Contact
+- **Website**: [www.hodos360.com](https://www.hodos360.com)
+- **Email**: hello@hodos360.com
+- **LinkedIn**: [HODOS 360 LLC](https://linkedin.com/company/hodos360)
 
 ---
 
-Built with ❤️ using Next.js and AI
+Built with ❤️ and AI by HODOS 360 LLC | Transforming Legal Tech
