@@ -1,0 +1,91 @@
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import { Toaster } from '@/components/ui/toaster'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { Analytics } from '@/components/analytics'
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
+
+export const metadata: Metadata = {
+  title: 'HODOS 360 LLC - AI-Powered Legal Tech Solutions',
+  description: 'Transform your law firm with AI-driven solutions. From C-suite management to client intake, HODOS 360 offers comprehensive AI tools for modern legal practices.',
+  keywords: 'legal tech, AI law firm, legal AI, law firm management, legal marketing, AI reception',
+  authors: [{ name: 'HODOS 360 LLC' }],
+  creator: 'HODOS 360 LLC',
+  publisher: 'HODOS 360 LLC',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://www.hodos360.com'),
+  openGraph: {
+    title: 'HODOS 360 LLC - AI-Powered Legal Tech Solutions',
+    description: 'Transform your law firm with AI-driven solutions',
+    url: 'https://www.hodos360.com',
+    siteName: 'HODOS 360',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'HODOS 360 - AI Legal Tech',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HODOS 360 LLC - AI-Powered Legal Tech',
+    description: 'Transform your law firm with AI-driven solutions',
+    images: ['/twitter-image.png'],
+    creator: '@hodos360',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/apple-icon.png',
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+          <Analytics />
+          <VercelAnalytics />
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}

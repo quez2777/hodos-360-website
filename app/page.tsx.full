@@ -1,0 +1,27 @@
+import { Navigation } from "@/components/layout/navigation"
+import { Footer } from "@/components/layout/footer"
+import { HeroSection } from "@/components/sections/hero"
+import {
+  LazyTrustSection,
+  LazyProductsSection,
+  LazyStatsSection,
+  LazyTestimonialsSection,
+  LazyCTASection
+} from "@/components/sections/lazy-sections"
+
+export default function HomePage() {
+  return (
+    <>
+      <Navigation />
+      <main className="flex-1">
+        <HeroSection />
+        <LazyTrustSection />
+        <LazyProductsSection />
+        <LazyStatsSection />
+        <LazyTestimonialsSection />
+        <LazyCTASection />
+      </main>
+      <Footer />
+    </>
+  )
+}
