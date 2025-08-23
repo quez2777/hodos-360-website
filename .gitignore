@@ -56,3 +56,6 @@ memories.json
 *.temp
 .cache
 EOF < /dev/null
+# Requirements system (private)
+requirements/
+!requirements/index.md
