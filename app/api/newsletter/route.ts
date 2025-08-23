@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { getCacheHeaders } from "@/lib/cache-config"
 
 export async function POST(request: Request) {
   try {
@@ -35,10 +36,15 @@ export async function POST(request: Request) {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 500))
     
-    return NextResponse.json({
-      success: true,
-      message: "Successfully subscribed to newsletter!",
-    })
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Successfully subscribed to newsletter!",
+      },
+      {
+        headers: getCacheHeaders('api', 'newsletter'),
+      }
+    )
   } catch (error) {
     console.error("Newsletter subscription error:", error)
     return NextResponse.json(

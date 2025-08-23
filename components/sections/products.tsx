@@ -55,9 +55,7 @@ const ProductsSection = React.memo(function ProductsSection() {
                   scale={1.02}
                   transitionSpeed={2000}
                 >
-                  <Card className="h-full relative overflow-hidden group hover:shadow-ai-glow transition-all duration-300">
-                    {/* Gradient Border Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Card variant="lapisGlow" className="h-full group transition-all duration-300">
                     
                     <CardHeader className="relative">
                       <div className={`inline-flex p-3 rounded-lg bg-${product.color}/10 mb-4`}>

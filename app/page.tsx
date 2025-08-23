@@ -1,3 +1,8 @@
+import { getPageRevalidation } from "@/lib/cache-config"
+
+// Enable ISR with 1 hour revalidation for homepage
+export const revalidate = getPageRevalidation('home')
+
 export default function HomePage() {
   return (
     <div style={{ padding: '2rem', minHeight: '100vh', background: '#0a0a0a', color: 'white' }}>

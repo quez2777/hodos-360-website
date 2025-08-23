@@ -11,11 +11,15 @@ import { TypeAnimation } from "react-type-animation"
 const HeroSection = React.memo(function HeroSection() {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background with animated gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-secondary/20" />
+      {/* Background with animated gradient matching logo */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-background to-primary-600/20" />
       
       {/* Animated mesh background */}
       <div className="absolute inset-0 bg-ai-mesh opacity-20 dark:opacity-10" />
+      
+      {/* Circular gradient orbs - matching logo's circular motif */}
+      <div className="absolute top-20 right-20 h-96 w-96 rounded-full bg-gradient-to-br from-primary-900/20 to-primary-600/20 blur-3xl animate-pulse-slow" />
+      <div className="absolute bottom-20 left-20 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-400/20 to-amber-500/20 blur-3xl animate-pulse-slow animation-delay-2000" />
       
       {/* Floating particles effect - reduced count for performance */}
       <div className="absolute inset-0">
@@ -54,7 +58,7 @@ const HeroSection = React.memo(function HeroSection() {
             <span>Powered by Advanced AI</span>
           </motion.div>
 
-          {/* Main Heading */}
+          {/* Main Heading with gradient text matching logo */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,7 +68,7 @@ const HeroSection = React.memo(function HeroSection() {
             <span className="block">Transform Your Law Firm</span>
             <span className="block mt-2">
               with{" "}
-              <span className="gradient-text">
+              <span className="bg-gradient-to-r from-primary-900 to-primary-600 bg-clip-text text-transparent">
                 <TypeAnimation
                   sequence={[
                     "AI Executives",
@@ -99,7 +103,7 @@ const HeroSection = React.memo(function HeroSection() {
             className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-6"
           >
             <Link href="/demo">
-              <Button size="xl" variant="ai" className="group">
+              <Button size="xl" variant="gradient" className="group">
                 {CTA.primary}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
@@ -124,17 +128,17 @@ const HeroSection = React.memo(function HeroSection() {
             </p>
             <div className="flex items-center gap-8">
               <div className="text-center">
-                <p className="text-3xl font-bold text-primary">98%</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-primary-900 to-primary-600 bg-clip-text text-transparent">98%</p>
                 <p className="text-sm text-muted-foreground">Client Satisfaction</p>
               </div>
-              <div className="h-8 w-px bg-border" />
+              <div className="h-8 w-px bg-gradient-to-b from-transparent via-primary-600/50 to-transparent" />
               <div className="text-center">
-                <p className="text-3xl font-bold text-primary">312%</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">312%</p>
                 <p className="text-sm text-muted-foreground">Average ROI</p>
               </div>
-              <div className="h-8 w-px bg-border" />
+              <div className="h-8 w-px bg-gradient-to-b from-transparent via-primary-600/50 to-transparent" />
               <div className="text-center">
-                <p className="text-3xl font-bold text-primary">24/7</p>
+                <p className="text-3xl font-bold bg-gradient-to-r from-primary-900 to-primary-600 bg-clip-text text-transparent">24/7</p>
                 <p className="text-sm text-muted-foreground">AI Support</p>
               </div>
             </div>

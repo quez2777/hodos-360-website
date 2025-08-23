@@ -10,9 +10,9 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 209 57% 38%;
+    --primary: 217 91% 60%; /* #2563eb */
     --primary-foreground: 0 0% 100%;
-    --secondary: 51 100% 50%;
+    --secondary: 41 96% 56%; /* #fbbf24 */
     --secondary-foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -33,9 +33,9 @@
     --card-foreground: 0 0% 95%;
     --popover: 230 40% 8%;
     --popover-foreground: 0 0% 95%;
-    --primary: 209 57% 38%;
+    --primary: 217 91% 60%; /* #2563eb */
     --primary-foreground: 0 0% 100%;
-    --secondary: 51 100% 50%;
+    --secondary: 41 96% 56%; /* #fbbf24 */
     --secondary-foreground: 222.2 84% 4.9%;
     --muted: 230 30% 15%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -108,7 +108,7 @@
   .ai-glow::before {
     content: '';
     @apply absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300;
-    background: radial-gradient(circle at center, theme('colors.primary.500') 0%, transparent 70%);
+    background: radial-gradient(circle at center, #2563eb 0%, #1e3a8a 50%, transparent 70%);
     filter: blur(20px);
     z-index: -1;
   }
@@ -124,7 +124,7 @@
   .ai-border-glow::after {
     content: '';
     @apply absolute inset-0 rounded-lg;
-    background: linear-gradient(45deg, theme('colors.primary.500'), theme('colors.secondary.500'), theme('colors.primary.500'));
+    background: linear-gradient(45deg, #2563eb, #fbbf24, #2563eb);
     padding: 2px;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -139,14 +139,26 @@
   }
 }
 
-/* Gradient text */
+/* Gradient text - matching logo design */
 @layer utilities {
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 animate-gradient-shift;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  }
+
+  .gradient-text-animated {
+    @apply bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-shift;
+    background-image: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #1e3a8a 100%);
   }
 
   .gradient-text-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary-600 to-secondary-400;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  }
+
+  .gradient-text-lapis-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #fbbf24 100%);
   }
 }
 
@@ -163,9 +175,17 @@
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
 }
 
-/* Loading skeleton */
+/* Loading skeleton with gold accent */
 @layer utilities {
   .skeleton {
     @apply relative overflow-hidden bg-muted;
@@ -177,10 +197,14 @@
     background: linear-gradient(
       90deg,
       transparent,
-      theme('colors.white' / 10%),
+      rgba(251, 191, 36, 0.2),
       transparent
     );
     animation: shimmer 2s infinite;
+  }
+
+  .skeleton-gold {
+    @apply relative overflow-hidden bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-950 dark:to-amber-900;
   }
 }
 

@@ -5,11 +5,15 @@ import { ProductFeatures } from "@/components/sections/product-features"
 import { ProductBenefits } from "@/components/sections/product-benefits"
 import { ProductCTA } from "@/components/sections/product-cta"
 import { PRODUCTS } from "@/lib/constants"
+import { getPageRevalidation } from "@/lib/cache-config"
 
 export const metadata = {
   title: "HODOS VIDEO Agents - AI Reception & Sales | HODOS 360",
   description: "Revolutionary video and voice AI agents for reception, intake, and sales. Never miss a client call with 24/7 intelligent support.",
 }
+
+// Enable ISR with 2 hour revalidation
+export const revalidate = getPageRevalidation('products')
 
 const product = PRODUCTS.video
 

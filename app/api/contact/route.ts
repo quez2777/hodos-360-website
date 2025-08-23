@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { getCacheHeaders } from "@/lib/cache-config"
 
 export async function POST(request: Request) {
   try {
@@ -39,10 +40,15 @@ export async function POST(request: Request) {
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    return NextResponse.json({
-      success: true,
-      message: "Thank you for your message. We'll be in touch within 24 hours.",
-    })
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Thank you for your message. We'll be in touch within 24 hours.",
+      },
+      {
+        headers: getCacheHeaders('api', 'contact'),
+      }
+    )
   } catch (error) {
     console.error("Contact form error:", error)
     return NextResponse.json(

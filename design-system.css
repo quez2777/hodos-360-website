@@ -1,29 +1,38 @@
 /* HODOS 360 - AI Legal Tech Design System - Ultra Modern */
 
 :root {
-  /* Primary Colors - Lapis Lazuli Blue Spectrum */
-  --lapis-deep: #1a237e;
-  --lapis-primary: #26619C;
-  --lapis-medium: #3f51b5;
-  --lapis-light: #5c6bc0;
-  --lapis-pale: #7986cb;
+  /* Primary Colors - Lapis Lazuli Blue (From Logo) */
+  --lapis-start: #1e3a8a;
+  --lapis-end: #2563eb;
+  --lapis-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  --lapis-gradient-horizontal: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
   
-  /* Royal Blue Accents */
-  --royal-primary: #4169E1;
-  --royal-dark: #2c4aa8;
-  --royal-light: #6b8cff;
+  /* Legacy Lapis Colors (for compatibility) */
+  --lapis-deep: #1e3a8a;
+  --lapis-primary: #2563eb;
+  --lapis-medium: #3b82f6;
+  --lapis-light: #60a5fa;
+  --lapis-pale: #93c5fd;
   
-  /* Gold Accents */
-  --gold-primary: #FFD700;
-  --gold-dark: #FFC107;
-  --gold-light: #FFEB3B;
-  --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
+  /* Gold Accents (From Logo) */
+  --gold-start: #fbbf24;
+  --gold-end: #f59e0b;
+  --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gold-gradient-diagonal: linear-gradient(45deg, #fbbf24 0%, #f59e0b 100%);
   
-  /* AI Glow Effects */
-  --ai-glow-primary: 0 0 40px rgba(38, 97, 156, 0.5);
-  --ai-glow-gold: 0 0 60px rgba(255, 215, 0, 0.3);
-  --ai-glow-intense: 0 0 80px rgba(38, 97, 156, 0.7);
-  --ai-pulse: 0 0 0 0 rgba(38, 97, 156, 0.4);
+  /* Legacy Gold Colors (for compatibility) */
+  --gold-primary: #fbbf24;
+  --gold-dark: #f59e0b;
+  --gold-light: #fde047;
+  
+  /* Brand Gray (From Logo) */
+  --brand-gray: #64748b;
+  
+  /* AI Glow Effects (Updated with exact colors) */
+  --ai-glow-primary: 0 0 40px rgba(37, 99, 235, 0.5);
+  --ai-glow-gold: 0 0 60px rgba(251, 191, 36, 0.3);
+  --ai-glow-intense: 0 0 80px rgba(37, 99, 235, 0.7);
+  --ai-pulse: 0 0 0 0 rgba(37, 99, 235, 0.4);
   
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.05);
@@ -154,13 +163,17 @@ body {
   background: var(--gold-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .heading-2 {
   font-size: var(--text-4xl);
   font-weight: 700;
   line-height: 1.2;
-  color: var(--lapis-primary);
+  background: var(--lapis-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .heading-3 {
@@ -188,7 +201,7 @@ body {
 .btn-primary {
   background: var(--gold-gradient);
   color: var(--dark-primary);
-  box-shadow: var(--shadow-gold);
+  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.25);
 }
 
 .btn-primary:hover {
@@ -197,18 +210,20 @@ body {
 }
 
 .btn-secondary {
-  background: var(--lapis-primary);
+  background: var(--lapis-gradient);
   color: var(--white);
 }
 
 .btn-secondary:hover {
-  background: var(--lapis-medium);
+  background: var(--lapis-gradient);
   transform: translateY(-2px);
+  filter: brightness(1.1);
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--lapis-primary);
+  border: 2px solid;
+  border-image: var(--lapis-gradient) 1;
   color: var(--lapis-primary);
 }
 
@@ -265,12 +280,12 @@ body {
 .form-input:focus {
   outline: none;
   border-color: var(--lapis-primary);
-  box-shadow: 0 0 0 3px rgba(38, 97, 156, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Gradient Backgrounds */
 .bg-lapis-gradient {
-  background: linear-gradient(135deg, var(--lapis-deep) 0%, var(--lapis-primary) 100%);
+  background: var(--lapis-gradient);
 }
 
 .bg-dark-gradient {
@@ -290,6 +305,10 @@ body {
   color: var(--lapis-primary);
 }
 
+.text-brand-gray {
+  color: var(--brand-gray);
+}
+
 .text-royal {
   color: var(--royal-primary);
 }
@@ -301,8 +320,8 @@ body {
 }
 
 @keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
-  50% { box-shadow: 0 0 0 20px rgba(255, 215, 0, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+  50% { box-shadow: 0 0 0 20px rgba(251, 191, 36, 0); }
 }
 
 @keyframes gradient-shift {
@@ -327,13 +346,13 @@ body {
 /* Modern AI-Themed Styles */
 @keyframes ai-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(38, 97, 156, 0.7);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(38, 97, 156, 0);
+    box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(38, 97, 156, 0);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
   }
 }
 
@@ -448,7 +467,7 @@ body {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, var(--lapis-primary), var(--gold-primary), var(--lapis-primary));
+  background: linear-gradient(45deg, var(--lapis-start), var(--gold-start), var(--lapis-end));
   border-radius: var(--radius-2xl);
   opacity: 0;
   z-index: -1;
@@ -487,8 +506,8 @@ body {
 .tech-grid {
   position: relative;
   background-image: 
-    linear-gradient(rgba(38, 97, 156, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(38, 97, 156, 0.1) 1px, transparent 1px);
+    linear-gradient(rgba(37, 99, 235, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
@@ -504,7 +523,7 @@ body {
 .input-modern:focus {
   background: rgba(255, 255, 255, 0.1);
   border-color: var(--lapis-primary);
-  box-shadow: 0 0 0 3px rgba(38, 97, 156, 0.2), var(--ai-glow-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2), var(--ai-glow-primary);
 }
 
 /* Loading Animation */
@@ -524,4 +543,45 @@ body {
   border-top-color: var(--lapis-primary);
   border-radius: 50%;
   animation: ai-loading 1s linear infinite;
+}
+
+/* Brand Gradient Text Classes */
+.text-gradient-lapis {
+  background: var(--lapis-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Brand Buttons */
+.btn-brand-primary {
+  background: var(--lapis-gradient);
+  color: var(--white);
+  box-shadow: var(--ai-glow-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-brand-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ai-glow-intense);
+}
+
+.btn-brand-accent {
+  background: var(--gold-gradient);
+  color: var(--dark-primary);
+  box-shadow: var(--ai-glow-gold);
+  transition: all 0.3s ease;
+}
+
+.btn-brand-accent:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 8px 30px rgba(251, 191, 36, 0.35);
 }

@@ -5,11 +5,15 @@ import { ProductFeatures } from "@/components/sections/product-features"
 import { ProductBenefits } from "@/components/sections/product-benefits"
 import { ProductCTA } from "@/components/sections/product-cta"
 import { PRODUCTS } from "@/lib/constants"
+import { getPageRevalidation } from "@/lib/cache-config"
 
 export const metadata = {
   title: "HODOS Marketing Platform - AI Legal Marketing | HODOS 360",
   description: "Dominate your market with AI-driven SEO and automated paid marketing campaigns. 3x your leads while reducing costs by 50%.",
 }
+
+// Enable ISR with 2 hour revalidation
+export const revalidate = getPageRevalidation('products')
 
 const product = PRODUCTS.marketing
 

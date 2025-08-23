@@ -3,15 +3,17 @@ import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 
 const cardVariants = cva(
-  "rounded-xl transition-all duration-300",
+  "rounded-xl transition-all duration-300 relative overflow-hidden",
   {
     variants: {
       variant: {
         default: "bg-card text-card-foreground shadow-md hover:shadow-xl border border-border",
-        glass: "glass border-white/10 shadow-glass hover:shadow-ai-glow",
-        gradient: "bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 border border-primary/20 hover:border-primary/40",
+        glass: "glass border border-white/10 shadow-glass hover:shadow-ai-glow backdrop-blur-lg",
+        gradient: "bg-gradient-to-br from-primary-900/10 via-transparent to-primary-600/10 border-2 border-transparent before:absolute before:inset-0 before:rounded-xl before:p-[2px] before:bg-gradient-to-r before:from-primary-900 before:to-primary-600 before:-z-10 hover:from-primary-900/20 hover:to-primary-600/20",
         elevated: "bg-card shadow-xl hover:shadow-2xl hover:-translate-y-1",
-        outline: "border-2 border-primary/20 hover:border-primary/40 bg-transparent",
+        outline: "border-2 border-transparent bg-gradient-to-r from-primary-900 to-primary-600 bg-clip-padding before:absolute before:inset-0 before:rounded-xl before:bg-card before:-z-10 before:m-[2px] hover:shadow-lg",
+        goldAccent: "bg-card border-2 border-transparent before:absolute before:inset-0 before:rounded-xl before:p-[2px] before:bg-gradient-to-br before:from-yellow-400 before:to-amber-500 before:-z-10 hover:shadow-gold-glow",
+        lapisGlow: "bg-gradient-to-br from-primary-900/5 to-primary-600/5 border border-primary-700/20 shadow-lg hover:shadow-ai-glow hover:border-primary-600/40 hover:from-primary-900/10 hover:to-primary-600/10",
       },
       padding: {
         none: "",

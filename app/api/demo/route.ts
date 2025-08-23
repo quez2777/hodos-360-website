@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { getCacheHeaders } from "@/lib/cache-config"
 
 export async function POST(request: Request) {
   try {
@@ -39,10 +40,15 @@ export async function POST(request: Request) {
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    return NextResponse.json({
-      success: true,
-      message: "Demo scheduled! Check your email for confirmation and meeting details.",
-    })
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Demo scheduled! Check your email for confirmation and meeting details.",
+      },
+      {
+        headers: getCacheHeaders('api', 'demo'),
+      }
+    )
   } catch (error) {
     console.error("Demo request error:", error)
     return NextResponse.json(

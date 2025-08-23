@@ -10,21 +10,25 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-md hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5",
+          "bg-gradient-to-r from-primary-900 to-primary-600 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:from-primary-800 hover:to-primary-500 transition-all duration-300",
         destructive:
           "bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90 hover:shadow-lg",
         outline:
-          "border-2 border-primary bg-transparent text-primary shadow-sm hover:bg-primary hover:text-primary-foreground hover:shadow-md",
+          "border-2 border-transparent bg-gradient-to-r from-primary-900 to-primary-600 bg-clip-padding relative before:absolute before:inset-0 before:rounded-lg before:bg-white dark:before:bg-dark-primary before:-z-10 before:m-[2px] text-primary-700 dark:text-primary-300 shadow-sm hover:text-white hover:before:opacity-0 transition-all duration-300",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-md hover:bg-secondary/80 hover:shadow-lg",
+          "bg-gradient-to-br from-yellow-400 to-amber-500 text-dark-primary shadow-md hover:shadow-gold-glow hover:-translate-y-0.5 hover:from-yellow-300 hover:to-amber-400 transition-all duration-300",
         ghost: 
           "text-primary hover:bg-primary/10 hover:text-primary",
         link: 
           "text-primary underline-offset-4 hover:underline",
         ai:
-          "bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:shadow-ai-glow hover:-translate-y-0.5 transition-all duration-300",
+          "bg-gradient-to-r from-primary-900 via-primary-600 to-primary-400 text-white shadow-lg hover:shadow-ai-glow hover:-translate-y-0.5 transition-all duration-300 hover:from-primary-800 hover:via-primary-500 hover:to-primary-300",
         glass:
-          "glass text-white border-white/20 hover:bg-white/10 hover:border-white/30 hover:shadow-glass",
+          "glass text-white border border-white/20 hover:bg-white/10 hover:border-white/30 hover:shadow-glass backdrop-blur-md",
+        gradient:
+          "bg-gradient-to-r from-primary-900 to-primary-600 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700",
+        gold:
+          "bg-gradient-to-br from-yellow-400 via-amber-400 to-amber-500 text-dark-primary shadow-md hover:shadow-gold-glow hover:-translate-y-0.5 transition-all duration-300 font-bold",
       },
       size: {
         default: "h-10 px-4 py-2",
