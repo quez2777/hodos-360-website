@@ -4,6 +4,7 @@ import { ProductHero } from "@/components/sections/product-hero"
 import { ProductFeatures } from "@/components/sections/product-features"
 import { ProductBenefits } from "@/components/sections/product-benefits"
 import { ProductCTA } from "@/components/sections/product-cta"
+import { ProductDemo } from "@/components/sections/product-demo"
 import { PRODUCTS } from "@/lib/constants"
 import { getPageRevalidation } from "@/lib/cache-config"
 
@@ -23,6 +24,7 @@ export default function HODOSProductPage() {
       <Navigation />
       <main className="flex-1">
         <ProductHero product={product} />
+        <ProductDemo productId="hodos" />
         <ProductFeatures product={product} />
         <ProductBenefits product={product} />
         <ProductCTA product={product} />

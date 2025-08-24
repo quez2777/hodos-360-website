@@ -29,6 +29,127 @@ import {
 import { useTheme } from "next-themes"
 import { motion, AnimatePresence } from "framer-motion"
 
+// Memoize product icons mapping
+const productIcons = {
+  Building,
+  TrendingUp,
+  Video,
+}
+
+// Memoize desktop menu content
+const DesktopProductMenu = React.memo(function DesktopProductMenu() {
+  return (
+    <NavigationMenuContent>
+      <ul className="grid w-[600px] gap-3 p-4 md:grid-cols-2">
+        {Object.values(PRODUCTS).map((product) => {
+          const Icon = productIcons[product.icon as keyof typeof productIcons]
+          return (
+            <li key={product.id}>
+              <NavigationMenuLink asChild>
+                <Link
+                  href={product.href}
+                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                >
+                  <div className="flex items-start space-x-3">
+                    <Icon className="h-5 w-5 text-primary mt-1" />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium leading-none mb-1">
+                        {product.name}
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        {product.tagline}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </NavigationMenuLink>
+            </li>
+          )
+        })}
+      </ul>
+      <div className="p-4 pt-0">
+        <Link href="/products" className="flex items-center text-sm text-primary hover:underline">
+          View all products
+          <ChevronRight className="ml-1 h-4 w-4" />
+        </Link>
+      </div>
+    </NavigationMenuContent>
+  )
+})
+
+// Memoize mobile menu
+const MobileMenu = React.memo(function MobileMenu({ 
+  isOpen, 
+  pathname, 
+  onClose 
+}: { 
+  isOpen: boolean
+  pathname: string
+  onClose: () => void 
+}) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.2 }}
+          className="lg:hidden"
+        >
+          <div className="space-y-1 pb-4 pt-2">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "block rounded-md px-3 py-2 text-base font-medium transition-colors",
+                  pathname === link.href
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                )}
+                onClick={onClose}
+              >
+                {link.label}
+              </Link>
+            ))}
+            
+            {/* Mobile Products Section */}
+            <div className="border-t pt-2 mt-2">
+              <p className="px-3 py-2 text-sm font-semibold text-muted-foreground">
+                Products
+              </p>
+              {Object.values(PRODUCTS).map((product) => {
+                const Icon = productIcons[product.icon as keyof typeof productIcons]
+                return (
+                  <Link
+                    key={product.id}
+                    href={product.href}
+                    className="flex items-center space-x-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                    onClick={onClose}
+                  >
+                    <Icon className="h-4 w-4 text-primary" />
+                    <span>{product.name}</span>
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Mobile CTA */}
+            <div className="border-t pt-4 mt-4">
+              <Link href="/demo" onClick={onClose}>
+                <Button variant="ai" size="lg" fullWidth>
+                  {CTA.primary}
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+})
+
 const Navigation = React.memo(function Navigation() {
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
@@ -39,17 +160,23 @@ const Navigation = React.memo(function Navigation() {
     setMounted(true)
   }, [])
 
-  const productIcons = {
-    Building,
-    TrendingUp,
-    Video,
-  }
+  const handleToggleTheme = React.useCallback(() => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }, [theme, setTheme])
+
+  const handleToggleMenu = React.useCallback(() => {
+    setIsOpen(prev => !prev)
+  }, [])
+
+  const handleCloseMenu = React.useCallback(() => {
+    setIsOpen(false)
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
+          {/* Logo with optimized loading */}
           <Link href="/" className="flex items-center space-x-2">
             <Image
               src="/images/hodos-logo.svg"
@@ -58,6 +185,8 @@ const Navigation = React.memo(function Navigation() {
               height={40}
               className="h-10 w-auto"
               priority
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
             />
           </Link>
 
@@ -75,41 +204,7 @@ const Navigation = React.memo(function Navigation() {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Products</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[600px] gap-3 p-4 md:grid-cols-2">
-                      {Object.values(PRODUCTS).map((product) => {
-                        const Icon = productIcons[product.icon as keyof typeof productIcons]
-                        return (
-                          <li key={product.id}>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href={product.href}
-                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                              >
-                                <div className="flex items-start space-x-3">
-                                  <Icon className="h-5 w-5 text-primary mt-1" />
-                                  <div className="flex-1">
-                                    <div className="text-sm font-medium leading-none mb-1">
-                                      {product.name}
-                                    </div>
-                                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                      {product.tagline}
-                                    </p>
-                                  </div>
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                    <div className="p-4 pt-0">
-                      <Link href="/products" className="flex items-center text-sm text-primary hover:underline">
-                        View all products
-                        <ChevronRight className="ml-1 h-4 w-4" />
-                      </Link>
-                    </div>
-                  </NavigationMenuContent>
+                  <DesktopProductMenu />
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
@@ -154,8 +249,9 @@ const Navigation = React.memo(function Navigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={handleToggleTheme}
                 className="relative h-9 w-9"
+                aria-label="Toggle theme"
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -177,7 +273,8 @@ const Navigation = React.memo(function Navigation() {
               variant="ghost"
               size="icon"
               className="lg:hidden"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={handleToggleMenu}
+              aria-label="Toggle menu"
             >
               <span className="sr-only">Toggle menu</span>
               {isOpen ? (
@@ -190,65 +287,11 @@ const Navigation = React.memo(function Navigation() {
         </div>
 
         {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden"
-            >
-              <div className="space-y-1 pb-4 pt-2">
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "block rounded-md px-3 py-2 text-base font-medium transition-colors",
-                      pathname === link.href
-                        ? "bg-primary text-primary-foreground"
-                        : "text-foreground hover:bg-accent hover:text-accent-foreground"
-                    )}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                
-                {/* Mobile Products Section */}
-                <div className="border-t pt-2 mt-2">
-                  <p className="px-3 py-2 text-sm font-semibold text-muted-foreground">
-                    Products
-                  </p>
-                  {Object.values(PRODUCTS).map((product) => {
-                    const Icon = productIcons[product.icon as keyof typeof productIcons]
-                    return (
-                      <Link
-                        key={product.id}
-                        href={product.href}
-                        className="flex items-center space-x-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <Icon className="h-4 w-4 text-primary" />
-                        <span>{product.name}</span>
-                      </Link>
-                    )
-                  })}
-                </div>
-
-                {/* Mobile CTA */}
-                <div className="border-t pt-4 mt-4">
-                  <Link href="/demo" onClick={() => setIsOpen(false)}>
-                    <Button variant="ai" size="lg" fullWidth>
-                      {CTA.primary}
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <MobileMenu 
+          isOpen={isOpen} 
+          pathname={pathname} 
+          onClose={handleCloseMenu}
+        />
       </nav>
     </header>
   )

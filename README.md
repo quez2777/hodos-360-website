@@ -9,11 +9,13 @@ Transform your entire law firm with AI-powered executives:
 - **AI C-Suite**: CFO, CMO, CAIO, and more
 - **AI Operations**: Reception, administration, and workflow automation
 - **Comprehensive Management**: From strategy to execution
+- **100+ AI Agents**: Working together across 15 specialized crews
 
 ### HODOS Marketing Platform
 Dominate your market with AI-driven marketing:
-- **AI SEO**: Intelligent search optimization
-- **Paid Marketing AI**: Automated campaign management
+- **AI SEO**: 7 specialized agents for complete SEO optimization
+- **Content Creation**: AI-powered blog, social, and video content
+- **Email Marketing**: Automated campaigns with 7 dedicated agents
 - **Performance Analytics**: Real-time insights and optimization
 
 ### HODOS VIDEO Agents
@@ -21,6 +23,36 @@ Revolutionary video and voice AI agents:
 - **AI Receptionist**: 24/7 intelligent client greeting
 - **AI Intake Specialist**: Automated client onboarding
 - **AI Sales Agent**: Convert leads with personalized interactions
+- **Video Marketing**: Complete video strategy and production
+
+## 🤖 AI Capabilities
+
+Our platform features **15 specialized AI crews** with over **100 AI agents**:
+
+### Marketing & Growth (42 Agents)
+- **SEO Crew**: 7 agents for comprehensive SEO
+- **Content Creation Crew**: 7 agents for all content needs
+- **Social Media Crew**: 7 agents for social presence
+- **Email Marketing Crew**: 7 agents for email campaigns
+- **Video Marketing Crew**: 7 agents for video strategy
+- **Reputation Management Crew**: 7 agents for online reputation
+
+### Client Management (16 Agents)
+- **Lead Generation Crew**: 8 agents for lead acquisition
+- **Client Service Crew**: 8 agents for client success
+
+### Legal Operations (24 Agents)
+- **Contract Management Crew**: 8 agents for contracts
+- **Compliance Crew**: 8 agents for regulatory compliance
+- **Legal Research Crew**: 8 agents for legal research
+
+### Business Intelligence (24 Agents)
+- **Business Intelligence Crew**: 8 agents for analytics
+- **Competitive Analysis Crew**: 8 agents for market intelligence
+- **Financial Analysis Crew**: 8 agents for financial insights
+
+### Master Orchestration
+- **Master Orchestrator**: Coordinates all crews for integrated campaigns
 
 ## 🛠 Tech Stack
 
@@ -43,9 +75,10 @@ The project features a custom design system with:
 
 ### Prerequisites
 - Node.js 18.0 or higher
+- Python 3.11 or higher
 - npm or yarn package manager
 
-### Installation
+### Frontend Installation
 
 ```bash
 # Install dependencies
@@ -60,6 +93,29 @@ npm run build
 # Start production server
 npm start
 ```
+
+### AI Backend Installation
+
+```bash
+# Navigate to backend
+cd backend/
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your API keys
+
+# Launch the AI Mega Demo
+python gradio_apps/launch_mega_demo.py
+```
+
+The AI demo will be available at `http://localhost:7860`
 
 ### Development
 
@@ -85,6 +141,23 @@ HODOS-Site/
 ├── components/         # React components
 │   ├── ui/            # Reusable UI components
 │   └── ...            # Feature-specific components
+├── backend/            # AI Backend
+│   ├── crews/         # CrewAI implementations
+│   │   ├── seo_crew.py
+│   │   ├── content_crew.py
+│   │   ├── social_media_crew.py
+│   │   ├── lead_generation_crew.py
+│   │   ├── client_service_crew.py
+│   │   ├── contract_crew.py
+│   │   ├── compliance_crew.py
+│   │   ├── business_intelligence_crew.py
+│   │   └── master_orchestrator.py
+│   ├── gradio_apps/   # Interactive AI demos
+│   │   ├── mega_demo.py
+│   │   └── launch_mega_demo.py
+│   └── README.md      # Backend documentation
+├── docs/              # Documentation
+│   └── AI_SERVICES.md # Comprehensive AI guide
 ├── lib/               # Utility functions and helpers
 ├── public/            # Static assets
 ├── styles/            # Global styles and CSS modules
@@ -128,25 +201,32 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 
 ## Tech Stack
 
-### Core
+### Frontend
 - Next.js 14.1.0
 - React 18.2.0
 - TypeScript 5
-
-### Styling
 - Tailwind CSS 3.3.0
 - PostCSS
 - Custom design system
+
+### Backend AI Platform
+- **CrewAI Framework**: Multi-agent orchestration
+- **LangChain**: AI application framework
+- **Gradio**: Interactive AI demos
+- **Python 3.11+**: Core AI runtime
+- **OpenAI/Local LLMs**: Language model flexibility
 
 ### UI Components
 - Radix UI primitives
 - Lucide React icons
 - Custom component library
+- Framer Motion animations
 
 ### Development Tools
 - ESLint
 - Jest for testing
 - TypeScript strict mode
+- Pytest for AI testing
 
 ## Contributing
 

@@ -1,33 +1,83 @@
 import { getPageRevalidation } from "@/lib/cache-config"
+import dynamic from "next/dynamic"
+import { Suspense } from "react"
 
 // Enable ISR with 1 hour revalidation for homepage
 export const revalidate = getPageRevalidation('home')
 
+// Import hero section normally as it's above the fold
+import { HeroSection } from "@/components/sections/hero"
+
+// Loading skeleton component
+const SectionSkeleton = () => (
+  <div className="h-96 bg-muted/10 animate-pulse" />
+)
+
+// Dynamic imports for below-the-fold components with loading states
+const Navigation = dynamic(() => import("@/components/layout/navigation").then(mod => ({ default: mod.Navigation })), {
+  ssr: true,
+})
+
+const Footer = dynamic(() => import("@/components/layout/footer").then(mod => ({ default: mod.Footer })), {
+  ssr: true,
+})
+
+const TrustSection = dynamic(() => import("@/components/sections/trust").then(mod => ({ default: mod.TrustSection })), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+})
+
+const ProductsSection = dynamic(() => import("@/components/sections/products").then(mod => ({ default: mod.ProductsSection })), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+})
+
+const StatsSection = dynamic(() => import("@/components/sections/stats").then(mod => ({ default: mod.StatsSection })), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+})
+
+const DemoShowcase = dynamic(() => import("@/components/sections/demo-showcase").then(mod => ({ default: mod.DemoShowcase })), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+})
+
+const TestimonialsSection = dynamic(() => import("@/components/sections/testimonials").then(mod => ({ default: mod.TestimonialsSection })), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+})
+
+const CTASection = dynamic(() => import("@/components/sections/cta").then(mod => ({ default: mod.CTASection })), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+})
+
 export default function HomePage() {
   return (
-    <div style={{ padding: '2rem', minHeight: '100vh', background: '#0a0a0a', color: 'white' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '4rem', marginBottom: '2rem', background: 'linear-gradient(to right, #3b82f6, #eab308)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          HODOS 360
-        </h1>
-        <p style={{ fontSize: '1.5rem', marginBottom: '3rem', color: '#888' }}>
-          AI-Powered Legal Tech Solutions
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
-          <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.05)', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>HODOS</h2>
-            <p style={{ color: '#888' }}>Complete AI Law Firm Management</p>
-          </div>
-          <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.05)', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Marketing Platform</h2>
-            <p style={{ color: '#888' }}>AI SEO and Paid Marketing</p>
-          </div>
-          <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.05)', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>VIDEO Agents</h2>
-            <p style={{ color: '#888' }}>AI Reception and Sales Systems</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <Navigation />
+      <main className="flex-1">
+        <HeroSection />
+        <Suspense fallback={<SectionSkeleton />}>
+          <TrustSection />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <ProductsSection />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <StatsSection />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <DemoShowcase />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <TestimonialsSection />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <CTASection />
+        </Suspense>
+      </main>
+      <Footer />
+    </>
   )
 }

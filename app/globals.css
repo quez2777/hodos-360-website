@@ -183,6 +183,27 @@
   .animation-delay-4000 {
     animation-delay: 4s;
   }
+
+  /* Particle animation for hero section */
+  .particle {
+    animation: particle-float 20s ease-in-out infinite;
+  }
+}
+
+/* Keyframes for particle animation */
+@keyframes particle-float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(100px, -100px);
+  }
+  50% {
+    transform: translate(-100px, 100px);
+  }
+  75% {
+    transform: translate(-50px, -50px);
+  }
 }
 
 /* Loading skeleton with gold accent */
