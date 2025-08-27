@@ -71,22 +71,3 @@ export function useCachedData<T>(
   
   return { data, loading, error, refetch }
 }
-
-// Example usage component
-export function CachedDataExample() {
-  const { data, loading, error } = useCachedData<{ testimonials: any[] }>(
-    '/api/data/testimonials',
-    { ttl: 600, swr: 300 }
-  )
-  
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error.message}</div>
-  
-  return (
-    <div>
-      {data?.testimonials.map((testimonial) => (
-        <div key={testimonial.id}>{testimonial.content}</div>
-      ))}
-    </div>
-  )
-}

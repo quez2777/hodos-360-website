@@ -376,13 +376,37 @@ export class DocumentUploadHandler {
   private static async logAuditTrail(entry: any): Promise<void> {
     // In production, this would write to a secure audit log
     // For now, we'll console log with structured data
+    // Try Supabase admin insert first (if configured)
+    try {
+      // Lazy import to avoid adding a runtime dependency when not used
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { supabaseAdmin } = require('../supabase')
+
+      if (supabaseAdmin && typeof supabaseAdmin.from === 'function') {
+        const payload = {
+          action: entry.action,
+          user_id: String(entry.userId || ''),
+          document_id: entry.documentId ? String(entry.documentId) : null,
+          filename: entry.filename || null,
+          file_hash: entry.fileHash || null,
+          virus_scan_result: entry.virusScanResult || null,
+          timestamp: entry.timestamp ? new Date(entry.timestamp).toISOString() : new Date().toISOString(),
+        }
+
+        const { error } = await supabaseAdmin.from('audit_logs').insert(payload)
+        if (!error) return
+        console.error('Supabase insert error:', error)
+      }
+    } catch (supErr) {
+      console.error('Supabase audit write failed:', supErr)
+    }
+
+    // Fallback: structured console log
     console.log('AUDIT_TRAIL:', JSON.stringify({
       ...entry,
       environment: process.env.NODE_ENV,
       serverTime: new Date().toISOString(),
     }))
-
-    // TODO: Implement actual audit logging to database or dedicated service
   }
 
   /**

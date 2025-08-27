@@ -1,3 +1,4 @@
+import React from 'react'
 import dynamic from 'next/dynamic'
 import type { LucideIcon } from 'lucide-react'
 
@@ -33,7 +34,7 @@ export function dynamicIcon(iconName: string): IconComponent {
         return import('lucide-react').then(mod => mod.HelpCircle)
       }),
     {
-      loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />,
+      loading: () => React.createElement('div', { className: 'h-4 w-4 animate-pulse bg-muted rounded' }),
       ssr: false
     }
   )

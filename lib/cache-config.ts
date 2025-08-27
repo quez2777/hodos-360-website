@@ -60,27 +60,29 @@ export const cacheConfig = {
 // Helper function to generate cache headers
 export function getCacheHeaders(type: 'api' | 'page' | 'asset', key: string) {
   const config = cacheConfig[type as keyof typeof cacheConfig];
-  const settings = config[key as keyof typeof config] || config.data;
+  const settings = (config as any)[key] || (type === 'api' ? cacheConfig.api.data : {});
   
   if (type === 'api') {
-    const { maxAge, swr } = settings as typeof cacheConfig.api.data;
+    const { maxAge = 0, swr = 0 } = settings as typeof cacheConfig.api.data;
     return {
       'Cache-Control': `s-maxage=${maxAge}, stale-while-revalidate=${swr}`,
     };
   }
   
   if (type === 'asset') {
-    const { maxAge, immutable } = settings as typeof cacheConfig.assets.images;
+    const { maxAge = 0, immutable = false } = settings as typeof cacheConfig.assets.images;
     return {
       'Cache-Control': `public, max-age=${maxAge}${immutable ? ', immutable' : ''}`,
     };
   }
   
-  return {};
+  return {
+    'Cache-Control': 'no-cache',
+  };
 }
 
 // ISR configuration for pages
 export function getPageRevalidation(pageName: string): number | false {
-  const pageConfig = cacheConfig.pages[pageName as keyof typeof cacheConfig.pages];
+  const pageConfig = (cacheConfig.pages as any)[pageName];
   return pageConfig?.revalidate ?? 3600; // Default to 1 hour
 }

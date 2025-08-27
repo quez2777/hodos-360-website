@@ -43,7 +43,7 @@ export function generateCacheTags(
   type: 'page' | 'api' | 'product' | 'blog' | 'user',
   id?: string
 ): string[] {
-  const tags = [type]
+  const tags: string[] = [type]
   
   if (id) {
     tags.push(`${type}:${id}`)

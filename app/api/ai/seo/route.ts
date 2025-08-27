@@ -93,7 +93,8 @@ export async function POST(req: NextRequest) {
 }
 
 // SEO content generation endpoint
-export async function POST_generate(req: NextRequest) {
+// SEO content generation endpoint (move to separate route)
+async function POST_generate(req: NextRequest) {
   try {
     const body = await req.json()
     const validatedData = contentGenerationSchema.parse(body)
@@ -132,7 +133,8 @@ export async function POST_generate(req: NextRequest) {
 }
 
 // Quick SEO check endpoint (lighter analysis)
-export async function POST_check(req: NextRequest) {
+// SEO check endpoint (move to separate route)
+async function POST_check(req: NextRequest) {
   try {
     const { url } = await req.json()
 

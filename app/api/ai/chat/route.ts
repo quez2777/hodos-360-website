@@ -196,10 +196,15 @@ You're professional, helpful, and focused on delivering value through innovative
   }
 }
 
-// Additional specialized endpoints
+// Note: Additional specialized endpoints like POST_document, POST_research, POST_brief
+// should be moved to separate API routes for proper Next.js routing
 
+// These functions are commented out as they are not valid Next.js route exports
+// They should be moved to separate files like app/api/ai/document/route.ts, etc.
+
+/*
 // Legal document analysis endpoint
-export async function POST_document(req: NextRequest) {
+async function POST_document(req: NextRequest) {
   try {
     const formData = await req.formData()
     const file = formData.get('file') as File
@@ -239,7 +244,7 @@ export async function POST_document(req: NextRequest) {
 }
 
 // Legal research endpoint
-export async function POST_research(req: NextRequest) {
+async function POST_research(req: NextRequest) {
   try {
     const { query, jurisdiction } = await req.json()
 
@@ -272,7 +277,7 @@ export async function POST_research(req: NextRequest) {
 }
 
 // Brief generation endpoint
-export async function POST_brief(req: NextRequest) {
+async function POST_brief(req: NextRequest) {
   try {
     const caseDetails = await req.json()
 
@@ -300,3 +305,4 @@ export async function POST_brief(req: NextRequest) {
     )
   }
 }
+*/

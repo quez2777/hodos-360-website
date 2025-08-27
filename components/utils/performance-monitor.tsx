@@ -41,8 +41,8 @@ export function PerformanceMonitor({
       onLoad?.(metrics)
       
       // Send to analytics if needed
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'component_load', {
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'component_load', {
           event_category: 'Performance',
           event_label: componentName,
           value: Math.round(renderTime),

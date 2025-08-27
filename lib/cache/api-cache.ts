@@ -283,6 +283,7 @@ export const cacheInvalidation = {
     const keys = Array.from((apiCache as any).cache.keys())
     
     for (const key of keys) {
+      if (typeof key !== 'string') continue
       if (pattern.test(key)) {
         apiCache.delete(key)
         invalidated++

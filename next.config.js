@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -126,10 +127,12 @@ const nextConfig = {
   // Enable ISR and optimization features
   experimental: {
     optimizeCss: true,
-    isrMemoryCacheSize: 50, // MB
     webpackBuildWorker: true,
     optimizePackageImports: ['framer-motion', '@headlessui/react', 'clsx', 'tailwind-merge'],
   },
+  
+  // ISR cache configuration
+  cacheMaxMemorySize: 50 * 1024 * 1024, // 50MB
   
   // Production optimizations
   productionBrowserSourceMaps: false,
@@ -139,6 +142,17 @@ const nextConfig = {
   
   // Webpack configuration for better chunking
   webpack: (config, { dev, isServer }) => {
+    // Add path aliases
+    const path = require('path');
+    Object.assign(config.resolve.alias, {
+      '@': path.resolve(__dirname, '.'),
+      '@/components': path.resolve(__dirname, './components'),
+      '@/lib': path.resolve(__dirname, './lib'),
+      '@/app': path.resolve(__dirname, './app'),
+      '@/types': path.resolve(__dirname, './types'),
+      '@/hooks': path.resolve(__dirname, './hooks'),
+    });
+
     // Production optimizations
     if (!dev && !isServer) {
       // Replace react with preact in production

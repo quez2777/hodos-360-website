@@ -1,13 +1,140 @@
-# HODOS 360 Website - Deployment Guide
+# HODOS 360 Deployment Guide
 
-## 🚀 Quick Start
+This guide covers deploying the HODOS 360 website to Vercel with all necessary configurations and validations.
+
+## Prerequisites
+
+### Required Tools
+- Node.js 18+ 
+- npm or yarn
+- Vercel CLI (`npm i -g vercel`)
+- Git
+
+### Required Services
+- Vercel account
+- PostgreSQL database (recommended: Vercel Postgres, Supabase, or PlanetScale)
+- Email service (Resend recommended)
+- AWS S3 bucket (for file uploads)
+
+## Environment Variables
+
+### Required Variables
+Create these in your Vercel project settings or `.env.production`:
 
 ```bash
-# Install dependencies
-npm install
+# Database
+DATABASE_URL="postgresql://username:password@host:port/database"
 
-# Run development server
-npm run dev
+# Authentication
+NEXTAUTH_URL="https://yourdomain.com"
+NEXTAUTH_SECRET="your-super-secure-random-string-32-chars-min"
+
+# Application
+NEXT_PUBLIC_APP_URL="https://yourdomain.com"
+```
+
+### Recommended Variables
+```bash
+# Email Service (Resend)
+RESEND_API_KEY="re_your_api_key_here"
+EMAIL_FROM="HODOS 360 <hello@hodos360.com>"
+EMAIL_REPLY_TO="support@hodos360.com"
+
+# Notification Recipients
+CONTACT_NOTIFICATION_EMAIL="sales@hodos360.com"
+DEMO_NOTIFICATION_EMAIL="sales@hodos360.com"
+NEWSLETTER_NOTIFICATION_EMAIL="marketing@hodos360.com"
+
+# File Storage (AWS S3)
+AWS_REGION="us-east-1"
+AWS_ACCESS_KEY_ID="your-access-key"
+AWS_SECRET_ACCESS_KEY="your-secret-key"
+AWS_S3_BUCKET_NAME="your-bucket-name"
+
+# AI Services (OpenAI)
+OPENAI_API_KEY="sk-your-openai-key"
+
+# Security (Optional but recommended)
+DOCUMENT_ENCRYPTION_KEY="your-encryption-key-32-chars"
+VIRUSTOTAL_API_KEY="your-virustotal-key"
+```
+
+## Deployment Process
+
+### Option 1: Automated Deployment (Recommended)
+
+1. **Setup Vercel CLI**
+   ```bash
+   npx vercel login
+   ```
+
+2. **Deploy to Staging**
+   ```bash
+   npm run deploy:staging
+   ```
+
+3. **Deploy to Production**
+   ```bash
+   npm run deploy
+   ```
+
+### Option 2: Manual Deployment
+
+1. **Pre-deployment Validation**
+   ```bash
+   npm run predeploy
+   ```
+
+2. **Deploy to Vercel**
+   ```bash
+   vercel --prod
+   ```
+
+3. **Post-deployment Verification**
+   ```bash
+   npm run deploy:check
+   ```
+
+### Option 3: GitHub Integration
+
+1. **Connect Repository**
+   - Go to Vercel dashboard
+   - Import your GitHub repository
+   - Configure environment variables
+   - Enable automatic deployments
+
+2. **Configure Build Settings**
+   - Build Command: `npm run vercel:build`
+   - Output Directory: `.next`
+   - Install Command: `npm run vercel:install`
+
+## Database Setup
+
+### Using Vercel Postgres (Recommended)
+
+1. **Create Database**
+   ```bash
+   vercel postgres create hodos-360-db
+   ```
+
+2. **Get Connection String**
+   ```bash
+   vercel env pull .env.production
+   ```
+
+3. **Run Migrations**
+   ```bash
+   npx prisma db push
+   ```
+
+### Using External Database
+
+1. **Setup your PostgreSQL instance**
+2. **Configure DATABASE_URL** in environment variables
+3. **Run database migrations**:
+   ```bash
+   npx prisma generate
+   npx prisma db push
 
 # Build for production
 npm run build

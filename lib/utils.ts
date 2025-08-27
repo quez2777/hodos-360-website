@@ -5,12 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(date: Date | string): string {
+export function formatDate(date: Date | string, options?: Intl.DateTimeFormatOptions): string {
   const d = new Date(date)
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
+    ...options,
   }).format(d)
 }
 

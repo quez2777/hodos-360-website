@@ -57,7 +57,7 @@ export async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
       react: options.react,
       html: options.html,
       text: options.text,
-      replyTo: options.replyTo || DEFAULT_REPLY_TO,
+      reply_to: options.replyTo || DEFAULT_REPLY_TO,
       cc: options.cc,
       bcc: options.bcc,
       attachments: options.attachments,
@@ -119,8 +119,9 @@ export async function sendBatchEmails(
       }))
     }
 
-    return (data || []).map((item) => ({
-      id: item.id,
+    const items = (data || []) as any[]
+    return items.map((item) => ({
+      id: item?.id || '',
       success: true,
     }))
   } catch (error) {

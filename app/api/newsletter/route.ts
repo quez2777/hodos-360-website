@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server"
+import React from "react"
+import { NextRequest, NextResponse } from "next/server"
 import { getCacheHeaders } from "@/lib/cache-config"
 import { sendEmail, validateEmail } from "@/lib/email/client"
 import { queueEmail } from "@/lib/email/queue"
@@ -12,7 +13,7 @@ async function addToMailingList(email: string, tags?: string[]) {
   return { success: true, subscriberId: `sub_${Date.now()}` }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
       react: WelcomeEmail({
         recipientEmail: email,
         subscriptionType: 'newsletter',
-      }),
+      }) as React.ReactElement,
       tags: [
         { name: 'type', value: 'welcome-newsletter' },
         { name: 'source', value: source },

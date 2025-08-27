@@ -1,11 +1,12 @@
-import { NextResponse } from "next/server"
+import React from "react"
+import { NextRequest, NextResponse } from "next/server"
 import { getCacheHeaders } from "@/lib/cache-config"
 import { sendEmail, validateEmail, sanitizeEmailContent } from "@/lib/email/client"
 import { queueEmail } from "@/lib/email/queue"
 import { ContactEmail } from "@/lib/email/templates/contact"
 import { WelcomeEmail } from "@/lib/email/templates/welcome"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
       react: ContactEmail({
         ...sanitizedData,
         timestamp: new Date().toISOString(),
-      }),
+      }) as React.ReactElement,
       tags: [
         { name: 'type', value: 'contact-form' },
         { name: 'company', value: sanitizedData.company },
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
         recipientEmail: sanitizedData.email,
         recipientName: sanitizedData.firstName,
         subscriptionType: 'contact',
-      }),
+      }) as React.ReactElement,
       tags: [
         { name: 'type', value: 'welcome-contact' },
         { name: 'source', value: 'contact-form' },

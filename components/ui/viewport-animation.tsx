@@ -42,7 +42,7 @@ export const ViewportAnimation = React.memo(function ViewportAnimation({
 
   return (
     <motion.div
-      ref={ref}
+      ref={ref as any}
       initial="hidden"
       animate={isIntersecting ? "visible" : "hidden"}
       variants={variants}
@@ -98,7 +98,7 @@ export const StaggeredViewportAnimation = React.memo(function StaggeredViewportA
 
   return (
     <motion.div
-      ref={ref}
+      ref={ref as any}
       initial="hidden"
       animate={isIntersecting ? "visible" : "hidden"}
       variants={containerVariants}

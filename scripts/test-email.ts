@@ -10,6 +10,7 @@
  * npx tsx scripts/test-email.ts demo test@example.com
  */
 
+import React from 'react'
 import { sendEmail } from '../lib/email/client'
 import { ContactEmail } from '../lib/email/templates/contact'
 import { DemoScheduledEmail } from '../lib/email/templates/demo-scheduled'
@@ -36,7 +37,7 @@ async function testEmail() {
             firmSize: '10-50 attorneys',
             practiceAreas: ['Personal Injury', 'Criminal Defense'],
             message: 'This is a test message from the email service test script. If you receive this, the email service is working correctly!',
-          }),
+          }) as React.ReactElement,
         })
         break
         
@@ -54,7 +55,7 @@ async function testEmail() {
             calendarLink: 'https://calendar.google.com/test',
             duration: '30 minutes',
             specialRequests: 'Testing the email service',
-          }),
+          }) as React.ReactElement,
         })
         break
         
@@ -67,7 +68,7 @@ async function testEmail() {
             recipientEmail: email,
             recipientName: 'Test User',
             subscriptionType: 'newsletter',
-          }),
+          }) as React.ReactElement,
         })
         break
     }

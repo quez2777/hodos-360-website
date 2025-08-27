@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server"
+import React from "react"
+import { NextRequest, NextResponse } from "next/server"
 import { getCacheHeaders } from "@/lib/cache-config"
 import { sendEmail, validateEmail } from "@/lib/email/client"
 import { queueEmail } from "@/lib/email/queue"
@@ -37,7 +38,7 @@ function getNextDemoSlot() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
@@ -80,7 +81,7 @@ export async function POST(request: Request) {
     const confirmationEmailId = await queueEmail({
       to: demoData.recipientEmail,
       subject: 'Your HODOS 360 Demo is Confirmed!',
-      react: DemoScheduledEmail(demoData),
+      react: DemoScheduledEmail(demoData) as React.ReactElement,
       tags: [
         { name: 'type', value: 'demo-confirmation' },
         { name: 'demo-date', value: demoSlot.date },
@@ -98,7 +99,7 @@ export async function POST(request: Request) {
         company: body.company || 'Not specified',
         message: `Demo scheduled for ${demoSlot.date} at ${demoSlot.time}\n\nSpecial requests: ${demoData.specialRequests || 'None'}`,
         timestamp: new Date().toISOString(),
-      }),
+      }) as React.ReactElement,
       tags: [
         { name: 'type', value: 'demo-internal' },
         { name: 'demo-date', value: demoSlot.date },

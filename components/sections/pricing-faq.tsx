@@ -68,7 +68,7 @@ export function PricingFAQ() {
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left">

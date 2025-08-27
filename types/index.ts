@@ -11,8 +11,8 @@ export interface Product {
   name: string
   tagline: string
   description: string
-  features: string[]
-  benefits: string[]
+  features: readonly string[]
+  benefits: readonly string[]
   icon: string
   color: "primary" | "secondary" | "accent"
   href: string

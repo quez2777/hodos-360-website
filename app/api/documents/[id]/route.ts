@@ -323,6 +323,29 @@ async function checkUserAccess(userId: string, document: any): Promise<boolean> 
 
 // Helper function to log document access
 async function logDocumentAccess(entry: any): Promise<void> {
+  // Prefer Supabase insert for central audit table, fall back to Prisma or console
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { supabaseAdmin } = require('../../../../lib/supabase')
+    if (supabaseAdmin && typeof supabaseAdmin.from === 'function') {
+      const payload = {
+        action: entry.action,
+        user_id: String(entry.userId || ''),
+        document_id: entry.documentId ? String(entry.documentId) : null,
+        filename: entry.filename || null,
+        file_hash: entry.fileHash || null,
+        virus_scan_result: entry.virusScanResult || null,
+        timestamp: entry.timestamp ? new Date(entry.timestamp).toISOString() : new Date().toISOString(),
+      }
+      const { error } = await supabaseAdmin.from('audit_logs').insert(payload)
+      if (!error) return
+      console.error('Supabase insert error (document access):', error)
+    }
+  } catch (supErr) {
+    console.error('Supabase document access audit write failed:', supErr)
+  }
+
+  // Fallback to existing Prisma model if present
   try {
     await prisma.documentAuditLog.create({
       data: {
@@ -330,7 +353,8 @@ async function logDocumentAccess(entry: any): Promise<void> {
         metadata: entry.changes ? JSON.stringify(entry.changes) : null,
       },
     })
+    return
   } catch (error) {
-    console.error('Failed to log document access:', error)
+    console.error('Failed to log document access via Prisma:', error)
   }
 }

@@ -12,7 +12,7 @@ const memoryCache = new Map<string, { data: any; timestamp: number; ttl: number 
 // Client-side caching wrapper
 export async function cachedFetch<T>(
   url: string,
-  options?: RequestInit & { cache?: CacheOptions }
+  options?: any
 ): Promise<T> {
   const cacheKey = options?.cache?.key || url
   const ttl = (options?.cache?.ttl || 300) * 1000 // Convert to milliseconds

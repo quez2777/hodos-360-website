@@ -1,6 +1,6 @@
 import { openAIClient, AIError, countTokens } from './openai-client'
 import type { OpenAI } from './openai-client'
-import * as pdfParse from 'pdf-parse'
+import pdfParse from 'pdf-parse'
 
 // Document processing types
 export interface DocumentAnalysis {

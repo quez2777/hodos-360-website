@@ -14,7 +14,7 @@ export function PricingCards() {
         <div className="grid gap-8 lg:grid-cols-3">
           {PRICING.map((plan, index) => (
             <motion.div
-              key={plan.id}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -40,9 +40,6 @@ export function PricingCards() {
                       <span className="text-muted-foreground">/month</span>
                     )}
                   </div>
-                  {plan.users && (
-                    <p className="text-sm text-muted-foreground mt-2">{plan.users}</p>
-                  )}
                 </CardHeader>
                 
                 <CardContent className="space-y-6">
@@ -51,12 +48,6 @@ export function PricingCards() {
                       <div key={featureIndex} className="flex items-start gap-3">
                         <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                         <span className="text-sm">{feature}</span>
-                      </div>
-                    ))}
-                    {plan.limitations?.map((limitation, limitIndex) => (
-                      <div key={limitIndex} className="flex items-start gap-3">
-                        <X className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
-                        <span className="text-sm text-muted-foreground">{limitation}</span>
                       </div>
                     ))}
                   </div>

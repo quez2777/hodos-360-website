@@ -123,7 +123,8 @@ export async function POST(req: NextRequest) {
 }
 
 // Document comparison endpoint
-export async function POST_compare(req: NextRequest) {
+// Document comparison endpoint (move to separate route)
+async function POST_compare(req: NextRequest) {
   try {
     const formData = await req.formData()
     const file1 = formData.get('file1') as File
@@ -185,7 +186,8 @@ export async function POST_compare(req: NextRequest) {
 }
 
 // Document generation endpoint
-export async function POST_generate(req: NextRequest) {
+// Document generation endpoint (move to separate route)
+async function POST_generate(req: NextRequest) {
   try {
     const body = await req.json()
     const validatedData = generateRequestSchema.parse(body)
@@ -241,7 +243,8 @@ export async function POST_generate(req: NextRequest) {
 }
 
 // Quick document summary endpoint
-export async function POST_summary(req: NextRequest) {
+// Document summary endpoint (move to separate route)
+async function POST_summary(req: NextRequest) {
   try {
     const formData = await req.formData()
     const file = formData.get('file') as File

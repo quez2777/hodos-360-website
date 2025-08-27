@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getEmailStatus, getQueueStats } from "@/lib/email/queue"
 import { getCacheHeaders } from "@/lib/cache-config"
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const emailId = searchParams.get('id')

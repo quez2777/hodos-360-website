@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, HeadObjectCommand, CopyObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { Upload } from '@aws-sdk/lib-storage'
 
@@ -250,7 +250,7 @@ export class S3StorageClient {
    */
   static async copyFile(sourceKey: string, destinationKey: string): Promise<void> {
     try {
-      await s3Client.send(new PutObjectCommand({
+      await s3Client.send(new CopyObjectCommand({
         Bucket: BUCKET_NAME,
         Key: destinationKey,
         CopySource: `${BUCKET_NAME}/${sourceKey}`,

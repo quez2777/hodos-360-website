@@ -53,7 +53,7 @@ const StatsSection = React.memo(function StatsSection() {
                     {inView && (
                       <CountUp
                         start={0}
-                        end={typeof stat.value === "string" ? parseInt(stat.value) : stat.value}
+                        end={parseInt(stat.value.replace(/\D/g, '')) || 0}
                         duration={2.5}
                         separator=","
                         suffix={stat.suffix}

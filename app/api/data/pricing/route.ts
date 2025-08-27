@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { generateCacheHeaders } from "@/lib/api-cache"
 
 // Cached pricing data endpoint

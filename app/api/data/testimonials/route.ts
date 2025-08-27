@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { generateCacheHeaders } from "@/lib/api-cache"
 
 // Example API route with caching for testimonials data

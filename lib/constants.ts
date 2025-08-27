@@ -167,7 +167,7 @@ export const FAQS = [
 ] as const
 
 // Pricing Tiers
-export const PRICING_TIERS = [
+export const PRICING = [
   {
     name: "Starter",
     price: 999,
@@ -218,6 +218,9 @@ export const PRICING_TIERS = [
     popular: false,
   },
 ] as const
+
+// Export alias for backward compatibility
+export const PRICING_TIERS = PRICING
 
 // CTA Messages
 export const CTA = {
