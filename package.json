@@ -82,7 +82,8 @@
     "tiktoken": "^1.0.22",
     "uuid": "^11.1.0",
     "zod": "^3.25.76",
-    "postcss-preset-env": "^10.3.1"
+    "postcss-preset-env": "^10.3.1",
+    "critters": "^0.0.23"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.5.2",
@@ -96,7 +97,6 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "autoprefixer": "^10.4.17",
-    "critters": "^0.0.23",
     "cssnano": "^7.1.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
