@@ -1,5 +1,6 @@
 module.exports = {
   plugins: {
+    tailwindcss: {},
     'postcss-preset-env': {
       autoprefixer: {
         flexbox: 'no-2009'
@@ -9,7 +10,6 @@ module.exports = {
         'custom-properties': false
       }
     },
-    tailwindcss: {},
     autoprefixer: {},
   },
 }
