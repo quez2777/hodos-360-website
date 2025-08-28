@@ -1,7 +1,18 @@
 import { Resend } from 'resend'
 
-// Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialization of Resend client
+let resend: Resend | null = null
+
+function getResendClient(): Resend {
+  if (!resend) {
+    const apiKey = process.env.RESEND_API_KEY
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY environment variable is required for email functionality')
+    }
+    resend = new Resend(apiKey)
+  }
+  return resend
+}
 
 export interface EmailOptions {
   to: string | string[]
@@ -50,7 +61,8 @@ export async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
     }
 
     // Send email
-    const { data, error } = await resend.emails.send({
+    const client = getResendClient()
+    const { data, error } = await client.emails.send({
       from: options.from || DEFAULT_FROM,
       to: options.to,
       subject: options.subject,
@@ -108,7 +120,8 @@ export async function sendBatchEmails(
       tags: email.tags,
     }))
 
-    const { data, error } = await resend.batch.send(batchEmails)
+    const client = getResendClient()
+    const { data, error } = await client.batch.send(batchEmails)
 
     if (error) {
       console.error('Resend batch error:', error)

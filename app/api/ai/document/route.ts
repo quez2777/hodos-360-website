@@ -195,7 +195,7 @@ async function POST_generate(req: NextRequest) {
     const { templateType, parameters } = validatedData
 
     // Generate document
-    const result = await documentProcessor.generateDocumentFromTemplate(
+    const result = await documentProcessor.generateDocument(
       templateType,
       parameters
     )

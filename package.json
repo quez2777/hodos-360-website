@@ -6,7 +6,7 @@
   "author": "HODOS 360 LLC",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
@@ -14,7 +14,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "analyze": "ANALYZE=true next build",
-    "build:production": "NODE_ENV=production next build",
+    "build:production": "NODE_ENV=production prisma generate && next build",
     "email:test": "tsx scripts/test-email.ts",
     "email:preview": "email dev",
     "predeploy": "node scripts/pre-deploy.js",
@@ -22,8 +22,8 @@
     "deploy:staging": "npm run predeploy && vercel && npm run postdeploy",
     "deploy:check": "node scripts/post-deploy.js",
     "postdeploy": "node scripts/post-deploy.js",
-    "vercel:build": "prisma generate && npm run build",
-    "vercel:install": "npm ci --production=false"
+    "vercel-build": "prisma generate && next build",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
@@ -46,11 +46,12 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-toast": "^1.1.5",
-    "@react-email/components": "^0.0.25",
+    "@react-email/components": "^0.5.1",
     "@stripe/stripe-js": "^7.8.0",
     "@supabase/supabase-js": "^2.56.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/nodemailer": "^7.0.1",
+    "@types/uuid": "^10.0.0",
     "@vercel/analytics": "^1.1.2",
     "axios": "^1.6.7",
     "bcryptjs": "^3.0.2",
@@ -79,6 +80,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "tiktoken": "^1.0.22",
+    "uuid": "^11.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

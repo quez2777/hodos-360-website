@@ -1,11 +1,29 @@
 import OpenAI from 'openai'
 import { encoding_for_model } from 'tiktoken'
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-  dangerouslyAllowBrowser: false, // Only use server-side
-})
+// Lazy initialization of OpenAI client
+let openai: OpenAI | null = null
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    const apiKey = process.env.OPENAI_API_KEY
+    if (!apiKey) {
+      throw new AIError(
+        'OpenAI API key not configured',
+        'CONFIG_ERROR',
+        500,
+        { message: 'OPENAI_API_KEY environment variable is required' }
+      )
+    }
+    
+    openai = new OpenAI({
+      apiKey,
+      dangerouslyAllowBrowser: false, // Only use server-side
+    })
+  }
+  
+  return openai
+}
 
 // Token counting utilities
 export function countTokens(text: string, model: string = 'gpt-4-turbo-preview'): number {
@@ -117,7 +135,8 @@ export class OpenAIClient {
     }
 
     try {
-      const completion = await openai.chat.completions.create({
+      const client = getOpenAIClient()
+      const completion = await client.chat.completions.create({
         model,
         messages,
         temperature,
@@ -182,7 +201,8 @@ export class OpenAIClient {
     }
 
     try {
-      const response = await openai.embeddings.create({
+      const client = getOpenAIClient()
+      const response = await client.embeddings.create({
         model,
         input,
       })
@@ -201,7 +221,8 @@ export class OpenAIClient {
 
   async moderateContent(input: string) {
     try {
-      const response = await openai.moderations.create({ input })
+      const client = getOpenAIClient()
+      const response = await client.moderations.create({ input })
       return response
     } catch (error: any) {
       throw new AIError(

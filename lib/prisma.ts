@@ -1,5 +1,5 @@
-// Placeholder Prisma client - replace with your actual Prisma setup
-import { PrismaClient } from '@prisma/client'
+// Production-ready Prisma client with proper generated client import
+import { PrismaClient } from './generated/prisma'
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient }
 

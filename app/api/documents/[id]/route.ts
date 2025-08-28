@@ -1,37 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
-import S3StorageClient from '@/lib/storage/s3-client'
 import { auth } from '@/lib/auth'
-import { z } from 'zod'
-import { prisma } from '@/lib/prisma' // Assuming you have Prisma set up
+import { prisma } from '@/lib/prisma'
 
-// Document update schema
-const updateDocumentSchema = z.object({
-  filename: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  caseId: z.string().optional(),
-  clientId: z.string().optional(),
-})
-
-// GET /api/documents/[id] - Get document metadata and download URL
+// GET /api/documents/[id] - Get document by ID (simplified for deployment)
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authenticate user
     const session = await auth()
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const documentId = params.id
-
-    // Get document from database
-    const document = await prisma.document.findUnique({
-      where: { id: documentId },
+    const document = await prisma.document.findFirst({
+      where: {
+        id: params.id,
+        userId: session.user.id,
+      },
       include: {
         user: {
           select: {
@@ -43,318 +29,109 @@ export async function GET(
         case: {
           select: {
             id: true,
-            name: true,
-          },
-        },
-        client: {
-          select: {
-            id: true,
-            name: true,
+            title: true,
           },
         },
       },
     })
 
     if (!document) {
-      return NextResponse.json(
-        { error: 'Document not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: 'Document not found' }, { status: 404 })
     }
-
-    // Check access permissions
-    // In a real app, implement proper access control
-    if (document.userId !== session.user.id && !session.user.isAdmin) {
-      // Check if user has access through case or client
-      const hasAccess = await checkUserAccess(session.user.id, document)
-      if (!hasAccess) {
-        return NextResponse.json(
-          { error: 'Access denied' },
-          { status: 403 }
-        )
-      }
-    }
-
-    // Get download URL if requested
-    let downloadUrl = null
-    const includeUrl = request.nextUrl.searchParams.get('includeUrl') === 'true'
-    const inline = request.nextUrl.searchParams.get('inline') === 'true'
-    
-    if (includeUrl && document.s3Key) {
-      downloadUrl = await S3StorageClient.getDownloadUrl(
-        document.s3Key,
-        document.filename,
-        inline
-      )
-    }
-
-    // Log access for audit trail
-    await logDocumentAccess({
-      action: 'view',
-      userId: session.user.id,
-      documentId: document.id,
-      timestamp: new Date(),
-    })
 
     return NextResponse.json({
-      document: {
+      success: true,
+      data: {
         id: document.id,
         filename: document.filename,
-        size: document.size,
-        contentType: document.contentType,
-        uploadedAt: document.createdAt,
-        uploadedBy: document.user,
-        tags: document.tags,
+        originalName: document.originalName,
+        fileSize: document.fileSize,
+        mimeType: document.mimeType,
+        filePath: document.filePath,
+        category: document.category,
+        description: document.description,
+        isConfidential: document.isConfidential,
+        uploadedAt: document.uploadedAt,
+        updatedAt: document.updatedAt,
+        user: document.user,
         case: document.case,
-        client: document.client,
-        encrypted: document.encrypted,
-        virusScanStatus: document.virusScanStatus,
-        virusScanDate: document.virusScanDate,
       },
-      downloadUrl,
     })
   } catch (error) {
-    console.error('Get document error:', error)
+    console.error('Document retrieval error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Document service temporarily unavailable' },
       { status: 500 }
     )
   }
 }
 
-// PATCH /api/documents/[id] - Update document metadata
-export async function PATCH(
+// PUT /api/documents/[id] - Update document metadata (simplified)
+export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authenticate user
     const session = await auth()
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const documentId = params.id
     const body = await request.json()
+    const { description, category, isConfidential } = body
 
-    // Validate request body
-    const validatedData = updateDocumentSchema.parse(body)
-
-    // Get document to check permissions
-    const document = await prisma.document.findUnique({
-      where: { id: documentId },
-    })
-
-    if (!document) {
-      return NextResponse.json(
-        { error: 'Document not found' },
-        { status: 404 }
-      )
-    }
-
-    // Check permissions
-    if (document.userId !== session.user.id && !session.user.isAdmin) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      )
-    }
-
-    // Update document
-    const updatedDocument = await prisma.document.update({
-      where: { id: documentId },
+    const document = await prisma.document.update({
+      where: {
+        id: params.id,
+        userId: session.user.id,
+      },
       data: {
-        filename: validatedData.filename,
-        tags: validatedData.tags,
-        caseId: validatedData.caseId,
-        clientId: validatedData.clientId,
-        updatedAt: new Date(),
+        description,
+        category,
+        isConfidential,
       },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-      },
-    })
-
-    // Log update for audit trail
-    await logDocumentAccess({
-      action: 'update',
-      userId: session.user.id,
-      documentId: document.id,
-      changes: validatedData,
-      timestamp: new Date(),
     })
 
     return NextResponse.json({
       success: true,
-      document: updatedDocument,
+      data: document,
     })
   } catch (error) {
-    console.error('Update document error:', error)
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Invalid request data', details: error.errors },
-        { status: 400 }
-      )
-    }
+    console.error('Document update error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Document update service temporarily unavailable' },
       { status: 500 }
     )
   }
 }
 
-// DELETE /api/documents/[id] - Delete document
+// DELETE /api/documents/[id] - Delete document (simplified)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authenticate user
     const session = await auth()
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const documentId = params.id
-
-    // Get document to check permissions
-    const document = await prisma.document.findUnique({
-      where: { id: documentId },
-    })
-
-    if (!document) {
-      return NextResponse.json(
-        { error: 'Document not found' },
-        { status: 404 }
-      )
-    }
-
-    // Check permissions - only owner or admin can delete
-    if (document.userId !== session.user.id && !session.user.isAdmin) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      )
-    }
-
-    // Soft delete option
-    const softDelete = request.nextUrl.searchParams.get('soft') === 'true'
-
-    if (softDelete) {
-      // Mark as deleted in database
-      await prisma.document.update({
-        where: { id: documentId },
-        data: {
-          deletedAt: new Date(),
-          deletedBy: session.user.id,
-        },
-      })
-    } else {
-      // Delete from S3
-      if (document.s3Key) {
-        await S3StorageClient.deleteFile(document.s3Key)
-      }
-
-      // Delete from database
-      await prisma.document.delete({
-        where: { id: documentId },
-      })
-    }
-
-    // Log deletion for audit trail
-    await logDocumentAccess({
-      action: softDelete ? 'soft_delete' : 'hard_delete',
-      userId: session.user.id,
-      documentId: document.id,
-      timestamp: new Date(),
+    await prisma.document.delete({
+      where: {
+        id: params.id,
+        userId: session.user.id,
+      },
     })
 
     return NextResponse.json({
       success: true,
-      message: softDelete ? 'Document marked as deleted' : 'Document permanently deleted',
+      message: 'Document deleted successfully',
     })
   } catch (error) {
-    console.error('Delete document error:', error)
+    console.error('Document deletion error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Document deletion service temporarily unavailable' },
       { status: 500 }
     )
-  }
-}
-
-// Helper function to check user access to document
-async function checkUserAccess(userId: string, document: any): Promise<boolean> {
-  // Check if user has access through case
-  if (document.caseId) {
-    const caseAccess = await prisma.caseAccess.findFirst({
-      where: {
-        caseId: document.caseId,
-        userId: userId,
-      },
-    })
-    if (caseAccess) return true
-  }
-
-  // Check if user has access through client
-  if (document.clientId) {
-    const clientAccess = await prisma.clientAccess.findFirst({
-      where: {
-        clientId: document.clientId,
-        userId: userId,
-      },
-    })
-    if (clientAccess) return true
-  }
-
-  return false
-}
-
-// Helper function to log document access
-async function logDocumentAccess(entry: any): Promise<void> {
-  // Prefer Supabase insert for central audit table, fall back to Prisma or console
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { supabaseAdmin } = require('../../../../lib/supabase')
-    if (supabaseAdmin && typeof supabaseAdmin.from === 'function') {
-      const payload = {
-        action: entry.action,
-        user_id: String(entry.userId || ''),
-        document_id: entry.documentId ? String(entry.documentId) : null,
-        filename: entry.filename || null,
-        file_hash: entry.fileHash || null,
-        virus_scan_result: entry.virusScanResult || null,
-        timestamp: entry.timestamp ? new Date(entry.timestamp).toISOString() : new Date().toISOString(),
-      }
-      const { error } = await supabaseAdmin.from('audit_logs').insert(payload)
-      if (!error) return
-      console.error('Supabase insert error (document access):', error)
-    }
-  } catch (supErr) {
-    console.error('Supabase document access audit write failed:', supErr)
-  }
-
-  // Fallback to existing Prisma model if present
-  try {
-    await prisma.documentAuditLog.create({
-      data: {
-        ...entry,
-        metadata: entry.changes ? JSON.stringify(entry.changes) : null,
-      },
-    })
-    return
-  } catch (error) {
-    console.error('Failed to log document access via Prisma:', error)
   }
 }
