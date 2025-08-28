@@ -1,21 +1,17 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
 
-// Only require bundle analyzer if ANALYZE is set and package is available
-let withBundleAnalyzer;
-try {
-  if (process.env.ANALYZE === 'true') {
+// Make bundle analyzer optional for production builds
+let withBundleAnalyzer = (config) => config;
+if (process.env.ANALYZE === 'true') {
+  try {
     withBundleAnalyzer = require('@next/bundle-analyzer')({
       enabled: true,
     });
+  } catch (e) {
+    console.log('Bundle analyzer not available, skipping...');
   }
-} catch (error) {
-  // Bundle analyzer not available, use identity function
-  withBundleAnalyzer = (config) => config;
 }
-
-// Default to identity function if not analyzing
-withBundleAnalyzer = withBundleAnalyzer || ((config) => config);
 
 const nextConfig = {
   reactStrictMode: true,
@@ -348,17 +344,17 @@ const nextConfig = {
     ];
   },
   
-  // Redirects for performance
-  redirects: async () => {
-    return [
-      // Redirect trailing slashes
-      {
-        source: '/:path*/',
-        destination: '/:path*',
-        permanent: true,
-      },
-    ];
-  },
+  // Redirects disabled to fix redirect loop
+  // redirects: async () => {
+  //   return [
+  //     // Redirect trailing slashes
+  //     {
+  //       source: '/:path*/',
+  //       destination: '/:path*',
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
   
   // Output configuration
   output: 'standalone',
