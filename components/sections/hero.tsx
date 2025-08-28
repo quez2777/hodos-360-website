@@ -179,4 +179,4 @@ const HeroSection = React.memo(function HeroSection() {
 
 HeroSection.displayName = 'HeroSection'
 
-export { HeroSection }
+export { HeroSection }// Force update
