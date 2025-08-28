@@ -395,7 +395,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                   <Progress value={file.progress} className="mt-2 h-1" />
                 )}
                 {file.status === 'error' && file.error && (
-                  <Alert variant="destructive" className="mt-2">
+                  <Alert className="mt-2 border-red-500 bg-red-50 text-red-900">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>{file.error}</AlertDescription>
                   </Alert>
