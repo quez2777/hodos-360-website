@@ -1,8 +1,17 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+
+// Make bundle analyzer optional for production builds
+let withBundleAnalyzer = (config) => config;
+if (process.env.ANALYZE === 'true') {
+  try {
+    withBundleAnalyzer = require('@next/bundle-analyzer')({
+      enabled: true,
+    });
+  } catch (e) {
+    console.log('Bundle analyzer not available, skipping...');
+  }
+}
 
 const nextConfig = {
   reactStrictMode: true,
