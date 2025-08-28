@@ -1,0 +1,616 @@
+{
+  "summary": {
+    "totalFiles": 3,
+    "overallScore": 64,
+    "grade": "D (Needs Improvement)",
+    "timestamp": "2025-08-28T03:46:35.712Z"
+  },
+  "categories": {
+    "caching": {
+      "name": "Caching Strategy",
+      "score": 50,
+      "weight": 25
+    },
+    "database": {
+      "name": "Database Optimization",
+      "score": 72,
+      "weight": 30
+    },
+    "responseTime": {
+      "name": "Response Time",
+      "score": 55,
+      "weight": 20
+    },
+    "security": {
+      "name": "Security & Validation",
+      "score": 90,
+      "weight": 15
+    },
+    "monitoring": {
+      "name": "Monitoring & Observability",
+      "score": 53,
+      "weight": 10
+    }
+  },
+  "files": [
+    {
+      "file": "analytics/dashboard/route.ts",
+      "optimizations": {
+        "caching": {
+          "name": "Caching Strategy",
+          "weight": 25,
+          "score": 0,
+          "maxScore": 100,
+          "checks": {
+            "unstable_cache usage": {
+              "score": 0,
+              "found": false,
+              "issue": "No caching strategy implemented"
+            },
+            "Cache revalidation": {
+              "score": 0,
+              "found": false,
+              "issue": "No cache revalidation configured"
+            },
+            "Cache tags for invalidation": {
+              "score": 0,
+              "found": false,
+              "issue": "No cache tags for selective invalidation"
+            },
+            "Response headers": {
+              "score": 0,
+              "found": false,
+              "issue": "No cache control headers"
+            }
+          },
+          "issues": [
+            "Caching Strategy: No caching strategy implemented",
+            "Caching Strategy: No cache revalidation configured",
+            "Caching Strategy: No cache tags for selective invalidation"
+          ]
+        },
+        "database": {
+          "name": "Database Optimization",
+          "weight": 30,
+          "score": 85,
+          "maxScore": 100,
+          "checks": {
+            "Parallel queries": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Query aggregation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Index usage hints": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Connection pooling": {
+              "score": 20,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Database Optimization: Not implemented",
+            "Database Optimization: Not implemented"
+          ]
+        },
+        "responseTime": {
+          "name": "Response Time",
+          "weight": 20,
+          "score": 55,
+          "maxScore": 100,
+          "checks": {
+            "Async operations": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Promise.all usage": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Streaming responses": {
+              "score": 5,
+              "found": false,
+              "issue": "No streaming for large responses"
+            },
+            "Pagination support": {
+              "score": 0,
+              "found": false,
+              "issue": "No pagination implemented"
+            }
+          },
+          "issues": [
+            "Response Time: No streaming for large responses",
+            "Response Time: No pagination implemented"
+          ]
+        },
+        "security": {
+          "name": "Security & Validation",
+          "weight": 15,
+          "score": 90,
+          "maxScore": 100,
+          "checks": {
+            "Input validation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Authentication checks": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Rate limiting ready": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Error handling": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Security & Validation: Not implemented"
+          ]
+        },
+        "monitoring": {
+          "name": "Monitoring & Observability",
+          "weight": 10,
+          "score": 40,
+          "maxScore": 100,
+          "checks": {
+            "Error logging": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Performance metrics": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Health checks": {
+              "score": 0,
+              "found": false,
+              "issue": "No health check endpoints"
+            },
+            "Debugging info": {
+              "score": 0,
+              "found": false,
+              "issue": "No debugging information in responses"
+            }
+          },
+          "issues": [
+            "Monitoring & Observability: Not implemented",
+            "Monitoring & Observability: No health check endpoints",
+            "Monitoring & Observability: No debugging information in responses"
+          ]
+        }
+      },
+      "issues": [],
+      "score": 54
+    },
+    {
+      "file": "analytics/financial/route.ts",
+      "optimizations": {
+        "caching": {
+          "name": "Caching Strategy",
+          "weight": 25,
+          "score": 75,
+          "maxScore": 100,
+          "checks": {
+            "unstable_cache usage": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Cache revalidation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Cache tags for invalidation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Response headers": {
+              "score": 0,
+              "found": false,
+              "issue": "No cache control headers"
+            }
+          },
+          "issues": [
+            "Caching Strategy: No cache control headers"
+          ]
+        },
+        "database": {
+          "name": "Database Optimization",
+          "weight": 30,
+          "score": 85,
+          "maxScore": 100,
+          "checks": {
+            "Parallel queries": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Query aggregation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Index usage hints": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Connection pooling": {
+              "score": 20,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Database Optimization: Not implemented",
+            "Database Optimization: Not implemented"
+          ]
+        },
+        "responseTime": {
+          "name": "Response Time",
+          "weight": 20,
+          "score": 55,
+          "maxScore": 100,
+          "checks": {
+            "Async operations": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Promise.all usage": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Streaming responses": {
+              "score": 5,
+              "found": false,
+              "issue": "No streaming for large responses"
+            },
+            "Pagination support": {
+              "score": 0,
+              "found": false,
+              "issue": "No pagination implemented"
+            }
+          },
+          "issues": [
+            "Response Time: No streaming for large responses",
+            "Response Time: No pagination implemented"
+          ]
+        },
+        "security": {
+          "name": "Security & Validation",
+          "weight": 15,
+          "score": 90,
+          "maxScore": 100,
+          "checks": {
+            "Input validation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Authentication checks": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Rate limiting ready": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Error handling": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Security & Validation: Not implemented"
+          ]
+        },
+        "monitoring": {
+          "name": "Monitoring & Observability",
+          "weight": 10,
+          "score": 60,
+          "maxScore": 100,
+          "checks": {
+            "Error logging": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Performance metrics": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Health checks": {
+              "score": 0,
+              "found": false,
+              "issue": "No health check endpoints"
+            },
+            "Debugging info": {
+              "score": 20,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Monitoring & Observability: Not implemented",
+            "Monitoring & Observability: No health check endpoints",
+            "Monitoring & Observability: Not implemented"
+          ]
+        }
+      },
+      "issues": [],
+      "score": 75
+    },
+    {
+      "file": "analytics/performance/route.ts",
+      "optimizations": {
+        "caching": {
+          "name": "Caching Strategy",
+          "weight": 25,
+          "score": 75,
+          "maxScore": 100,
+          "checks": {
+            "unstable_cache usage": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Cache revalidation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Cache tags for invalidation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Response headers": {
+              "score": 0,
+              "found": false,
+              "issue": "No cache control headers"
+            }
+          },
+          "issues": [
+            "Caching Strategy: No cache control headers"
+          ]
+        },
+        "database": {
+          "name": "Database Optimization",
+          "weight": 30,
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "Parallel queries": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Query aggregation": {
+              "score": 0,
+              "found": false,
+              "issue": "No query aggregation used"
+            },
+            "Index usage hints": {
+              "score": 0,
+              "found": false,
+              "issue": "No query optimization hints"
+            },
+            "Connection pooling": {
+              "score": 20,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Database Optimization: No query aggregation used",
+            "Database Optimization: No query optimization hints",
+            "Database Optimization: Not implemented"
+          ]
+        },
+        "responseTime": {
+          "name": "Response Time",
+          "weight": 20,
+          "score": 55,
+          "maxScore": 100,
+          "checks": {
+            "Async operations": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Promise.all usage": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Streaming responses": {
+              "score": 5,
+              "found": false,
+              "issue": "No streaming for large responses"
+            },
+            "Pagination support": {
+              "score": 0,
+              "found": false,
+              "issue": "No pagination implemented"
+            }
+          },
+          "issues": [
+            "Response Time: No streaming for large responses",
+            "Response Time: No pagination implemented"
+          ]
+        },
+        "security": {
+          "name": "Security & Validation",
+          "weight": 15,
+          "score": 90,
+          "maxScore": 100,
+          "checks": {
+            "Input validation": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Authentication checks": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Rate limiting ready": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Error handling": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Security & Validation: Not implemented"
+          ]
+        },
+        "monitoring": {
+          "name": "Monitoring & Observability",
+          "weight": 10,
+          "score": 60,
+          "maxScore": 100,
+          "checks": {
+            "Error logging": {
+              "score": 25,
+              "found": true,
+              "issue": null
+            },
+            "Performance metrics": {
+              "score": 15,
+              "found": true,
+              "issue": null
+            },
+            "Health checks": {
+              "score": 0,
+              "found": false,
+              "issue": "No health check endpoints"
+            },
+            "Debugging info": {
+              "score": 20,
+              "found": true,
+              "issue": null
+            }
+          },
+          "issues": [
+            "Monitoring & Observability: Not implemented",
+            "Monitoring & Observability: No health check endpoints",
+            "Monitoring & Observability: Not implemented"
+          ]
+        }
+      },
+      "issues": [],
+      "score": 63
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "Caching Strategy",
+      "priority": "MEDIUM",
+      "issue": "Caching Strategy score is 50% (target: 80%+)",
+      "solution": "Implement unstable_cache with proper revalidation and cache tags. Add Cache-Control headers to responses."
+    },
+    {
+      "category": "Response Time",
+      "priority": "MEDIUM",
+      "issue": "Response Time score is 55% (target: 80%+)",
+      "solution": "Add pagination support, implement streaming for large responses, and parallelize independent operations."
+    },
+    {
+      "category": "Monitoring & Observability",
+      "priority": "MEDIUM",
+      "issue": "Monitoring & Observability score is 53% (target: 80%+)",
+      "solution": "Add structured logging, implement performance metrics collection, and include debugging metadata."
+    },
+    {
+      "category": "Performance",
+      "priority": "HIGH",
+      "issue": "Response time optimizations needed",
+      "solution": "Implement streaming responses for large datasets, add pagination, and use Promise.all for parallel operations"
+    }
+  ],
+  "checklist": {
+    "caching": {
+      "name": "Caching Strategy",
+      "weight": 25,
+      "checks": [
+        "unstable_cache usage",
+        "Cache revalidation",
+        "Cache tags for invalidation",
+        "Response headers"
+      ]
+    },
+    "database": {
+      "name": "Database Optimization",
+      "weight": 30,
+      "checks": [
+        "Parallel queries",
+        "Query aggregation",
+        "Index usage hints",
+        "Connection pooling"
+      ]
+    },
+    "responseTime": {
+      "name": "Response Time",
+      "weight": 20,
+      "checks": [
+        "Async operations",
+        "Promise.all usage",
+        "Streaming responses",
+        "Pagination support"
+      ]
+    },
+    "security": {
+      "name": "Security & Validation",
+      "weight": 15,
+      "checks": [
+        "Input validation",
+        "Authentication checks",
+        "Rate limiting ready",
+        "Error handling"
+      ]
+    },
+    "monitoring": {
+      "name": "Monitoring & Observability",
+      "weight": 10,
+      "checks": [
+        "Error logging",
+        "Performance metrics",
+        "Health checks",
+        "Debugging info"
+      ]
+    }
+  }
+}

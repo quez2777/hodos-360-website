@@ -1,0 +1,51 @@
+{
+  "summary": {
+    "total": 21,
+    "passed": 19,
+    "failed": 2,
+    "successRate": 90.47619047619048,
+    "totalTime": 4216
+  },
+  "performance": {
+    "/analytics/financial": [
+      110,
+      101,
+      129
+    ],
+    "/analytics/performance": [
+      129,
+      95,
+      78,
+      132
+    ],
+    "/realtime": [
+      71,
+      67,
+      150,
+      135
+    ],
+    "/reports": [
+      78,
+      144,
+      138,
+      63
+    ],
+    "/health": [
+      60,
+      98,
+      56,
+      68
+    ]
+  },
+  "errors": [
+    {
+      "test": "Financial Analytics - Invalid timeframe",
+      "error": "Expected status 400, got 200"
+    },
+    {
+      "test": "Reports - Invalid format",
+      "error": "Expected status 400, got 200"
+    }
+  ],
+  "timestamp": "2025-08-28T03:45:09.437Z"
+}

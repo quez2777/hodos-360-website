@@ -1,8 +1,21 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+
+// Only require bundle analyzer if ANALYZE is set and package is available
+let withBundleAnalyzer;
+try {
+  if (process.env.ANALYZE === 'true') {
+    withBundleAnalyzer = require('@next/bundle-analyzer')({
+      enabled: true,
+    });
+  }
+} catch (error) {
+  // Bundle analyzer not available, use identity function
+  withBundleAnalyzer = (config) => config;
+}
+
+// Default to identity function if not analyzing
+withBundleAnalyzer = withBundleAnalyzer || ((config) => config);
 
 const nextConfig = {
   reactStrictMode: true,
