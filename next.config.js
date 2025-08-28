@@ -344,17 +344,17 @@ const nextConfig = {
     ];
   },
   
-  // Redirects for performance
-  redirects: async () => {
-    return [
-      // Redirect trailing slashes
-      {
-        source: '/:path*/',
-        destination: '/:path*',
-        permanent: true,
-      },
-    ];
-  },
+  // Redirects disabled to fix redirect loop
+  // redirects: async () => {
+  //   return [
+  //     // Redirect trailing slashes
+  //     {
+  //       source: '/:path*/',
+  //       destination: '/:path*',
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
   
   // Output configuration
   output: 'standalone',
