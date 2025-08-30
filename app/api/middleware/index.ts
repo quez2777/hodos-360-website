@@ -60,9 +60,10 @@ export class MiddlewareOrchestrator {
   // Create middleware context
   private createContext(req: NextRequest): MiddlewareContext {
     const forwarded = req.headers.get('x-forwarded-for')
-    const ip = forwarded ? forwarded.split(',')[0].trim() : 
+    const forwardedIp = forwarded ? forwarded.split(',')[0]?.trim() : undefined
+    const ip = forwardedIp || 
                req.headers.get('x-real-ip') || 
-               req.ip || 
+               (req as any).ip || 
                'unknown'
 
     return {
