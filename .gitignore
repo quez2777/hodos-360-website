@@ -26,6 +26,13 @@ yarn-error.log*
 # Local env files
 .env*.local
 .env
+.env.security
+.env.local.backup*
+
+# Shell scripts with sensitive data
+*.sh
+fix-*.sh
+update-*.sh
 
 # Vercel
 .vercel
@@ -61,3 +68,16 @@ requirements/
 !requirements/index.md
 
 /lib/generated/prisma
+
+# Archive directories
+/archive/
+
+# GoHighLevel specific
+ghl-credentials.json
+*.ghl-log
+ghl-webhooks.log
+
+# Marketing AI specific
+marketing-campaigns.cache
+lead-scoring.log
+*.ai-model
