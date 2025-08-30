@@ -17,6 +17,16 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
+  // Skip type checking during build (already done in CI)
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  
+  // Skip ESLint during build (already done in CI)
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  
   // Compiler optimizations
   compiler: {
     // Remove console logs in production
