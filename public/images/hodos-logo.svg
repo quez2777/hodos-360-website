@@ -1,23 +1,80 @@
-<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="lapisGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    <!-- Golden gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
     </linearGradient>
-    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    
+    <!-- Dark gradient for contrast -->
+    <linearGradient id="darkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0f1c;stop-opacity:1" />
     </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Circuit pattern -->
+    <pattern id="circuits" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 20h10m5 0h5m5 0h5m5 0h5M20 0v10m0 5v5m0 5v5m0 5v5" stroke="#FFD700" stroke-width="0.5" opacity="0.3" fill="none"/>
+      <circle cx="10" cy="20" r="2" fill="#FFD700" opacity="0.5"/>
+      <circle cx="20" cy="10" r="2" fill="#FFD700" opacity="0.5"/>
+      <circle cx="30" cy="20" r="2" fill="#FFD700" opacity="0.5"/>
+      <circle cx="20" cy="30" r="2" fill="#FFD700" opacity="0.5"/>
+    </pattern>
   </defs>
   
-  <!-- HODOS Text -->
-  <text x="10" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="url(#lapisGradient)">
-    HODOS
-  </text>
+  <!-- Shield background -->
+  <path d="M100 10 L170 40 L170 120 Q170 160 100 190 Q30 160 30 120 L30 40 Z" 
+        fill="url(#darkGradient)" 
+        stroke="url(#goldGradient)" 
+        stroke-width="3"
+        filter="url(#glow)"/>
   
-  <!-- 360 Symbol with Gold Accent -->
-  <circle cx="165" cy="30" r="25" fill="none" stroke="url(#goldAccent)" stroke-width="3"/>
-  <text x="165" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="url(#goldAccent)">
-    360
-  </text>
+  <!-- Circuit pattern overlay -->
+  <path d="M100 10 L170 40 L170 120 Q170 160 100 190 Q30 160 30 120 L30 40 Z" 
+        fill="url(#circuits)" 
+        opacity="0.5"/>
+  
+  <!-- Golden H -->
+  <g transform="translate(100, 100)">
+    <!-- Left vertical bar -->
+    <rect x="-35" y="-50" width="15" height="100" fill="url(#goldGradient)" filter="url(#glow)"/>
+    
+    <!-- Right vertical bar -->
+    <rect x="20" y="-50" width="15" height="100" fill="url(#goldGradient)" filter="url(#glow)"/>
+    
+    <!-- Horizontal bar -->
+    <rect x="-35" y="-7.5" width="70" height="15" fill="url(#goldGradient)" filter="url(#glow)"/>
+    
+    <!-- Quantum dots decoration -->
+    <circle cx="-42" cy="-57" r="3" fill="#FFD700" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="42" cy="-57" r="3" fill="#FFD700" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="-42" cy="57" r="3" fill="#FFD700" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="42" cy="57" r="3" fill="#FFD700" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Top crown detail -->
+  <path d="M85 10 L100 25 L115 10" 
+        fill="none" 
+        stroke="url(#goldGradient)" 
+        stroke-width="2" 
+        stroke-linecap="round"
+        filter="url(#glow)"/>
 </svg>

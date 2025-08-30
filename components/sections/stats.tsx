@@ -16,9 +16,9 @@ const StatsSection = React.memo(function StatsSection() {
   })
 
   return (
-    <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden">
+    <section className="py-24 bg-gradient-to-br from-[#FFD700]/5 via-[#0A0F1C] to-[#1756DB]/5 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-ai-mesh opacity-5" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#FFD700]/5 to-transparent" />
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -29,10 +29,10 @@ const StatsSection = React.memo(function StatsSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-white">
             Proven Results That Speak for Themselves
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto">
             Join hundreds of law firms already transforming their practice with AI
           </p>
         </motion.div>
@@ -47,9 +47,9 @@ const StatsSection = React.memo(function StatsSection() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="inline-flex items-center justify-center p-6 rounded-2xl bg-card shadow-lg border mb-4">
+              <div className="inline-flex items-center justify-center p-6 rounded-2xl bg-[#0F1522] shadow-[0_0_30px_rgba(255,215,0,0.2)] border border-[#FFD700]/30 mb-4">
                 <div>
-                  <div className="text-5xl font-bold text-primary mb-2">
+                  <div className="text-5xl font-bold text-[#FFD700] mb-2">
                     {inView && (
                       <CountUp
                         start={0}
@@ -60,7 +60,7 @@ const StatsSection = React.memo(function StatsSection() {
                       />
                     )}
                   </div>
-                  <p className="text-muted-foreground font-medium">{stat.label}</p>
+                  <p className="text-white/70 font-medium">{stat.label}</p>
                 </div>
               </div>
             </motion.div>
@@ -75,11 +75,11 @@ const StatsSection = React.memo(function StatsSection() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-lg text-muted-foreground mb-4">
+          <p className="text-lg text-white/80 mb-4">
             Curious about your potential ROI?
           </p>
           <Link href="/roi-calculator">
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="outline" className="border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10">
               Calculate Your ROI
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

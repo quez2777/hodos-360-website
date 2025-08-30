@@ -10,7 +10,7 @@ import { Star, Quote, ArrowRight } from "lucide-react"
 
 const TestimonialsSection = React.memo(function TestimonialsSection() {
   return (
-    <section className="py-24">
+    <section className="py-24 bg-[#0A0F1C]">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -20,10 +20,10 @@ const TestimonialsSection = React.memo(function TestimonialsSection() {
           viewport={{ once: true }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-white">
             What Our Clients Say
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-white/80">
             Don't just take our word for it - hear from law firms that have transformed their practice
           </p>
         </motion.div>
@@ -38,15 +38,15 @@ const TestimonialsSection = React.memo(function TestimonialsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full relative">
+              <Card className="h-full relative bg-[#0F1522] border-[#FFD700]/20 hover:border-[#FFD700]/40 transition-all duration-300">
                 {/* Quote Icon */}
-                <Quote className="absolute top-4 right-4 h-8 w-8 text-primary/10" />
+                <Quote className="absolute top-4 right-4 h-8 w-8 text-[#FFD700]/20" />
                 
                 <CardContent className="pt-6">
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
+                      <Star key={i} className="h-5 w-5 fill-[#FFD700] text-[#FFD700]" />
                     ))}
                   </div>
                   

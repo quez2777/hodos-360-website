@@ -101,10 +101,10 @@ const LazyDemoContainer = ({
       ) : (
         <div className="flex items-center justify-center h-[600px]">
           <div className="text-center">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Sparkles className="h-8 w-8 text-primary animate-pulse" />
+            <div className="w-16 h-16 rounded-full bg-[#FFD700]/10 flex items-center justify-center mx-auto mb-4">
+              <Sparkles className="h-8 w-8 text-[#FFD700] animate-pulse" />
             </div>
-            <p className="text-muted-foreground">Scroll to load {demoId} demo</p>
+            <p className="text-white/60">Scroll to load {demoId} demo</p>
           </div>
         </div>
       )}
@@ -117,7 +117,7 @@ export function DemoShowcase() {
   const activeDemo = demoTabs.find(tab => tab.id === activeTab)
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-[#0A0F1C]">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -127,10 +127,10 @@ export function DemoShowcase() {
           viewport={{ once: true }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-white">
             See Our AI in Action
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-white/80">
             Experience the power of HODOS AI through interactive demonstrations
           </p>
         </motion.div>

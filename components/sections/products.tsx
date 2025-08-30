@@ -17,7 +17,7 @@ const productIcons = {
 
 const ProductsSection = React.memo(function ProductsSection() {
   return (
-    <section className="py-24 relative">
+    <section className="py-24 relative bg-[#0A0F1C]">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -27,10 +27,10 @@ const ProductsSection = React.memo(function ProductsSection() {
           viewport={{ once: true }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4 text-white">
             Complete AI Solutions for Modern Law Firms
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-white/80">
             Three powerful platforms working together to transform every aspect of your practice
           </p>
         </motion.div>
@@ -58,17 +58,17 @@ const ProductsSection = React.memo(function ProductsSection() {
                   <Card variant="lapisGlow" className="h-full group transition-all duration-300">
                     
                     <CardHeader className="relative">
-                      <div className={`inline-flex p-3 rounded-lg bg-${product.color}/10 mb-4`}>
-                        <Icon className={`h-6 w-6 text-${product.color}`} />
+                      <div className="inline-flex p-3 rounded-lg bg-[#FFD700]/10 mb-4">
+                        <Icon className="h-6 w-6 text-[#FFD700]" />
                       </div>
-                      <CardTitle className="text-2xl">{product.name}</CardTitle>
-                      <CardDescription className="text-base">
+                      <CardTitle className="text-2xl text-white">{product.name}</CardTitle>
+                      <CardDescription className="text-base text-[#FFD700]/80">
                         {product.tagline}
                       </CardDescription>
                     </CardHeader>
                     
                     <CardContent className="relative space-y-4">
-                      <p className="text-muted-foreground">
+                      <p className="text-white/70">
                         {product.description}
                       </p>
                       
@@ -76,8 +76,8 @@ const ProductsSection = React.memo(function ProductsSection() {
                       <ul className="space-y-2">
                         {product.features.slice(0, 4).map((feature) => (
                           <li key={feature} className="flex items-start gap-2">
-                            <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                            <span className="text-sm">{feature}</span>
+                            <Check className="h-5 w-5 text-[#FFD700] mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-white/80">{feature}</span>
                           </li>
                         ))}
                       </ul>

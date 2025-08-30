@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
-
-// Email validation regex
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+import { clientCreateSchema, clientUpdateSchema, clientQuerySchema } from "@/lib/validations"
+import { ZodError } from "zod"
 
 // GET /api/clients - List clients with search
 export async function GET(request: NextRequest) {
@@ -18,38 +17,35 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get("page") || "1")
-    const limit = parseInt(searchParams.get("limit") || "10")
-    const status = searchParams.get("status")
-    const search = searchParams.get("search")
-    const sortBy = searchParams.get("sortBy") || "createdAt"
-    const sortOrder = searchParams.get("sortOrder") || "desc"
-
-    // Validate pagination parameters
-    if (page < 1 || limit < 1 || limit > 100) {
-      return NextResponse.json(
-        { error: "Invalid pagination parameters. Page must be >= 1, limit must be 1-100" },
-        { status: 400 }
-      )
-    }
-
-    // Validate sort parameters
-    const validSortFields = ["createdAt", "updatedAt", "firstName", "lastName", "company"]
-    const validSortOrders = ["asc", "desc"]
     
-    if (!validSortFields.includes(sortBy)) {
-      return NextResponse.json(
-        { error: `Invalid sortBy field. Must be one of: ${validSortFields.join(', ')}` },
-        { status: 400 }
-      )
+    // Validate query parameters with Zod
+    let queryParams
+    try {
+      queryParams = clientQuerySchema.parse({
+        page: searchParams.get("page"),
+        limit: searchParams.get("limit"),
+        status: searchParams.get("status"),
+        search: searchParams.get("search"),
+        sortBy: searchParams.get("sortBy"),
+        sortOrder: searchParams.get("sortOrder"),
+      })
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return NextResponse.json(
+          { 
+            error: "Invalid query parameters",
+            details: error.errors.map(err => ({
+              field: err.path.join('.'),
+              message: err.message
+            }))
+          },
+          { status: 400 }
+        )
+      }
+      throw error
     }
 
-    if (!validSortOrders.includes(sortOrder)) {
-      return NextResponse.json(
-        { error: `Invalid sortOrder. Must be 'asc' or 'desc'` },
-        { status: 400 }
-      )
-    }
+    const { page, limit, status, search, sortBy, sortOrder } = queryParams
 
     const skip = (page - 1) * limit
 
@@ -132,75 +128,30 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
 
-    // Validate required fields
-    const requiredFields = ["firstName", "lastName", "email"]
-    for (const field of requiredFields) {
-      if (!body[field] || (typeof body[field] === 'string' && body[field].trim() === '')) {
+    // Validate input with Zod schema
+    let validatedData
+    try {
+      validatedData = clientCreateSchema.parse(body)
+    } catch (error) {
+      if (error instanceof ZodError) {
         return NextResponse.json(
-          { error: `Missing required field: ${field}` },
+          { 
+            error: "Invalid input data",
+            details: error.errors.map(err => ({
+              field: err.path.join('.'),
+              message: err.message
+            }))
+          },
           { status: 400 }
         )
       }
-    }
-
-    // Validate field types and lengths
-    if (typeof body.firstName !== 'string' || body.firstName.length > 100) {
-      return NextResponse.json(
-        { error: "First name must be a string with maximum 100 characters" },
-        { status: 400 }
-      )
-    }
-
-    if (typeof body.lastName !== 'string' || body.lastName.length > 100) {
-      return NextResponse.json(
-        { error: "Last name must be a string with maximum 100 characters" },
-        { status: 400 }
-      )
-    }
-
-    if (typeof body.email !== 'string' || !EMAIL_REGEX.test(body.email)) {
-      return NextResponse.json(
-        { error: "Invalid email format" },
-        { status: 400 }
-      )
-    }
-
-    // Validate optional fields
-    if (body.phone && (typeof body.phone !== 'string' || body.phone.length > 20)) {
-      return NextResponse.json(
-        { error: "Phone must be a string with maximum 20 characters" },
-        { status: 400 }
-      )
-    }
-
-    if (body.company && (typeof body.company !== 'string' || body.company.length > 200)) {
-      return NextResponse.json(
-        { error: "Company must be a string with maximum 200 characters" },
-        { status: 400 }
-      )
-    }
-
-    if (body.address && (typeof body.address !== 'string' || body.address.length > 500)) {
-      return NextResponse.json(
-        { error: "Address must be a string with maximum 500 characters" },
-        { status: 400 }
-      )
-    }
-
-    if (body.status) {
-      const validStatuses = ['active', 'inactive', 'archived']
-      if (!validStatuses.includes(body.status)) {
-        return NextResponse.json(
-          { error: `Status must be one of: ${validStatuses.join(', ')}` },
-          { status: 400 }
-        )
-      }
+      throw error
     }
 
     // Check for duplicate email within user's clients
     const existingClient = await prisma.client.findFirst({
       where: {
-        email: body.email.trim().toLowerCase(),
+        email: validatedData.email,
         userId: session.user.id
       }
     })
@@ -212,15 +163,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Sanitize and prepare data
+    // Prepare data (Zod already handled validation and transformation)
     const clientData = {
-      firstName: body.firstName.trim(),
-      lastName: body.lastName.trim(),
-      email: body.email.trim().toLowerCase(),
-      phone: body.phone?.trim() || null,
-      company: body.company?.trim() || null,
-      address: body.address?.trim() || null,
-      status: body.status || 'active',
+      ...validatedData,
       userId: session.user.id
     }
 
@@ -264,6 +209,210 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { error: "Failed to create client" },
+      { status: 500 }
+    )
+  }
+}
+
+// PUT /api/clients - Update client (expects ?id=clientId)
+export async function PUT(request: NextRequest) {
+  try {
+    // Authentication check
+    const session = await auth()
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(request.url)
+    const clientId = searchParams.get("id")
+
+    if (!clientId) {
+      return NextResponse.json(
+        { error: "Client ID is required" },
+        { status: 400 }
+      )
+    }
+
+    const body = await request.json()
+
+    // Validate input with Zod schema
+    let validatedData
+    try {
+      validatedData = clientUpdateSchema.parse(body)
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return NextResponse.json(
+          { 
+            error: "Invalid input data",
+            details: error.errors.map(err => ({
+              field: err.path.join('.'),
+              message: err.message
+            }))
+          },
+          { status: 400 }
+        )
+      }
+      throw error
+    }
+
+    // Check if client exists and belongs to user
+    const existingClient = await prisma.client.findFirst({
+      where: {
+        id: clientId,
+        userId: session.user.id
+      }
+    })
+
+    if (!existingClient) {
+      return NextResponse.json(
+        { error: "Client not found or access denied" },
+        { status: 404 }
+      )
+    }
+
+    // Check for duplicate email if email is being updated
+    if (validatedData.email && validatedData.email !== existingClient.email) {
+      const duplicateClient = await prisma.client.findFirst({
+        where: {
+          email: validatedData.email,
+          userId: session.user.id,
+          id: { not: clientId }
+        }
+      })
+
+      if (duplicateClient) {
+        return NextResponse.json(
+          { error: "A client with this email address already exists" },
+          { status: 409 }
+        )
+      }
+    }
+
+    // Update client
+    const updatedClient = await prisma.client.update({
+      where: { id: clientId },
+      data: validatedData,
+      include: {
+        _count: {
+          select: { cases: true }
+        }
+      }
+    })
+
+    // Log audit trail
+    await prisma.auditLog.create({
+      data: {
+        action: 'CLIENT_UPDATED',
+        userId: session.user.id,
+        timestamp: new Date()
+      }
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: "Client updated successfully",
+      data: updatedClient
+    })
+
+  } catch (error) {
+    console.error("Clients PUT error:", error)
+    
+    // Handle Prisma-specific errors
+    if (error instanceof Error) {
+      if (error.message.includes('unique constraint')) {
+        return NextResponse.json(
+          { error: "A client with this email address already exists" },
+          { status: 409 }
+        )
+      }
+    }
+
+    return NextResponse.json(
+      { error: "Failed to update client" },
+      { status: 500 }
+    )
+  }
+}
+
+// DELETE /api/clients - Delete client (expects ?id=clientId)
+export async function DELETE(request: NextRequest) {
+  try {
+    // Authentication check
+    const session = await auth()
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(request.url)
+    const clientId = searchParams.get("id")
+
+    if (!clientId) {
+      return NextResponse.json(
+        { error: "Client ID is required" },
+        { status: 400 }
+      )
+    }
+
+    // Check if client exists and belongs to user
+    const existingClient = await prisma.client.findFirst({
+      where: {
+        id: clientId,
+        userId: session.user.id
+      },
+      include: {
+        _count: {
+          select: { cases: true }
+        }
+      }
+    })
+
+    if (!existingClient) {
+      return NextResponse.json(
+        { error: "Client not found or access denied" },
+        { status: 404 }
+      )
+    }
+
+    // Check if client has associated cases
+    if (existingClient._count.cases > 0) {
+      return NextResponse.json(
+        { 
+          error: "Cannot delete client with associated cases. Please delete or reassign cases first.",
+          details: { caseCount: existingClient._count.cases }
+        },
+        { status: 409 }
+      )
+    }
+
+    // Delete client
+    await prisma.client.delete({
+      where: { id: clientId }
+    })
+
+    // Log audit trail
+    await prisma.auditLog.create({
+      data: {
+        action: 'CLIENT_DELETED',
+        userId: session.user.id,
+        timestamp: new Date()
+      }
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: "Client deleted successfully"
+    })
+
+  } catch (error) {
+    console.error("Clients DELETE error:", error)
+    return NextResponse.json(
+      { error: "Failed to delete client" },
       { status: 500 }
     )
   }

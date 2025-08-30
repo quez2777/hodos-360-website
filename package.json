@@ -23,7 +23,11 @@
     "deploy:check": "node scripts/post-deploy.js",
     "postdeploy": "node scripts/post-deploy.js",
     "vercel-build": "prisma generate && next build",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:reset": "prisma migrate reset --force && npm run db:seed",
+    "db:setup": "./scripts/quick-db-setup.sh",
+    "test:apis": "tsx scripts/test-apis.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
@@ -32,6 +36,7 @@
     "@aws-sdk/s3-request-presigner": "^3.873.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^6.14.0",
     "@radix-ui/react-checkbox": "^1.3.3",
@@ -44,6 +49,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slider": "^1.3.6",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-toast": "^1.1.5",
     "@react-email/components": "^0.5.1",
@@ -53,10 +59,12 @@
     "@types/nodemailer": "^7.0.1",
     "@types/uuid": "^10.0.0",
     "@vercel/analytics": "^1.1.2",
+    "ai": "^5.0.28",
     "axios": "^1.6.7",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "critters": "^0.0.23",
     "framer-motion": "^11.0.3",
     "lru-cache": "^11.1.0",
     "lucide-react": "^0.312.0",
@@ -66,6 +74,7 @@
     "nodemailer": "^6.10.1",
     "openai": "^5.15.0",
     "pdf-parse": "^1.1.1",
+    "postcss-preset-env": "^10.3.1",
     "prisma": "^6.14.0",
     "react": "^18.2.0",
     "react-countup": "^6.5.3",
@@ -81,9 +90,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tiktoken": "^1.0.22",
     "uuid": "^11.1.0",
-    "zod": "^3.25.76",
-    "postcss-preset-env": "^10.3.1",
-    "critters": "^0.0.23"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.5.2",

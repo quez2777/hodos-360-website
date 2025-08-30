@@ -99,15 +99,15 @@ const Footer = React.memo(function Footer() {
   }
 
   return (
-    <footer className="w-full border-t bg-background">
+    <footer className="w-full border-t border-[#FFD700]/20 bg-[#0A0F1C]">
       {/* Newsletter Section */}
-      <div className="border-b">
+      <div className="border-b border-[#FFD700]/20">
         <div className="container mx-auto px-4 py-12">
           <div className="mx-auto max-w-2xl text-center">
-            <h3 className="text-2xl font-bold tracking-tight">
+            <h3 className="text-2xl font-bold tracking-tight text-white">
               Stay ahead with AI insights
             </h3>
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-2 text-white/70">
               Get the latest updates on AI legal tech delivered to your inbox.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="mt-6 flex flex-col gap-4 sm:flex-row sm:gap-2">
@@ -116,7 +116,7 @@ const Footer = React.memo(function Footer() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="flex-1 rounded-lg border border-[#FFD700]/30 bg-[#0F1522] px-4 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#FFD700] focus:outline-none focus:ring-2 focus:ring-[#FFD700]/20"
                 required
                 disabled={isSubmitting}
               />

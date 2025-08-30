@@ -4,12 +4,19 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Play, Building, TrendingUp, Video } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Product } from "@/types"
 
 const productIcons = {
   Building,
   TrendingUp,
   Video,
+}
+
+const productLogos = {
+  hodos: "/images/hodos-main-logo.jpg",
+  marketing: "/images/hodos-marketing-platform-logo.png",
+  "video-agents": "/images/hodos-main-logo.jpg", // Using main logo for video agents for now
 }
 
 interface ProductHeroProps {
@@ -71,8 +78,19 @@ export function ProductHero({ product }: ProductHeroProps) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="relative"
           >
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-secondary/20 flex items-center justify-center">
-              <Icon className="h-48 w-48 text-primary/50" />
+            <div className="aspect-square rounded-2xl bg-gradient-to-br from-lapis-deep/20 via-background to-lapis/10 flex items-center justify-center p-8">
+              {productLogos[product.id as keyof typeof productLogos] ? (
+                <Image
+                  src={productLogos[product.id as keyof typeof productLogos]}
+                  alt={`${product.name} Logo`}
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              ) : (
+                <Icon className="h-48 w-48 text-lapis/50" />
+              )}
             </div>
             
             {/* Floating elements */}

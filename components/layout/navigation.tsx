@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { motion, AnimatePresence } from "framer-motion"
+import { RevealUnderline, MagneticHover, ShimmerHover } from "@/components/animations/luxury-hover"
 
 // Memoize product icons mapping
 const productIcons = {
@@ -48,10 +49,10 @@ const DesktopProductMenu = React.memo(function DesktopProductMenu() {
               <NavigationMenuLink asChild>
                 <Link
                   href={product.href}
-                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                  className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all hover:bg-gold/10 hover:text-gold focus:bg-gold/10 focus:text-gold border border-transparent hover:border-gold/30"
                 >
                   <div className="flex items-start space-x-3">
-                    <Icon className="h-5 w-5 text-primary mt-1" />
+                    <Icon className="h-5 w-5 text-gold mt-1" />
                     <div className="flex-1">
                       <div className="text-sm font-medium leading-none mb-1">
                         {product.name}
@@ -68,7 +69,7 @@ const DesktopProductMenu = React.memo(function DesktopProductMenu() {
         })}
       </ul>
       <div className="p-4 pt-0">
-        <Link href="/products" className="flex items-center text-sm text-primary hover:underline">
+        <Link href="/products" className="flex items-center text-sm text-gold hover:text-gold-dark transition-colors">
           View all products
           <ChevronRight className="ml-1 h-4 w-4" />
         </Link>
@@ -103,10 +104,10 @@ const MobileMenu = React.memo(function MobileMenu({
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "block rounded-md px-3 py-2 text-base font-medium transition-colors",
+                  "block rounded-md px-3 py-2 text-base font-medium transition-all",
                   pathname === link.href
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "bg-gold/20 text-gold border border-gold/30"
+                    : "text-white/80 hover:bg-gold/10 hover:text-gold border border-transparent hover:border-gold/20"
                 )}
                 onClick={onClose}
               >
@@ -116,7 +117,7 @@ const MobileMenu = React.memo(function MobileMenu({
             
             {/* Mobile Products Section */}
             <div className="border-t pt-2 mt-2">
-              <p className="px-3 py-2 text-sm font-semibold text-muted-foreground">
+              <p className="px-3 py-2 text-sm font-semibold text-gold/70">
                 Products
               </p>
               {Object.values(PRODUCTS).map((product) => {
@@ -125,10 +126,10 @@ const MobileMenu = React.memo(function MobileMenu({
                   <Link
                     key={product.id}
                     href={product.href}
-                    className="flex items-center space-x-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                    className="flex items-center space-x-3 rounded-md px-3 py-2 text-sm text-white/80 transition-all hover:bg-gold/10 hover:text-gold border border-transparent hover:border-gold/20"
                     onClick={onClose}
                   >
-                    <Icon className="h-4 w-4 text-primary" />
+                    <Icon className="h-4 w-4 text-gold" />
                     <span>{product.name}</span>
                   </Link>
                 )
@@ -138,7 +139,7 @@ const MobileMenu = React.memo(function MobileMenu({
             {/* Mobile CTA */}
             <div className="border-t pt-4 mt-4">
               <Link href="/demo" onClick={onClose}>
-                <Button variant="ai" size="lg" fullWidth>
+                <Button className="w-full bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold-darker text-epic-dark font-bold shadow-lg shadow-gold/30">
                   {CTA.primary}
                 </Button>
               </Link>
@@ -173,22 +174,33 @@ const Navigation = React.memo(function Navigation() {
   }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+    <motion.header 
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#0A0F1C]/95 border-b border-[#FFD700]/20 shadow-[0_4px_30px_rgba(255,215,0,0.1)]"
+    >
       <nav className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo with optimized loading */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Image
-              src="/images/hodos-logo.svg"
-              alt="HODOS 360"
-              width={150}
-              height={40}
-              className="h-10 w-auto"
-              priority
-              placeholder="blur"
-              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
-            />
-          </Link>
+          {/* Premium Logo with Magnetic Effect */}
+          <MagneticHover strength={0.2}>
+            <Link href="/" className="flex items-center space-x-4 group">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                <Image
+                  src="/images/hodos-main-logo.jpg"
+                  alt="HODOS 360 - Artificial Intelligence"
+                  width={200}
+                  height={80}
+                  className="h-12 w-auto"
+                  priority
+                  quality={100}
+                />
+              </motion.div>
+            </Link>
+          </MagneticHover>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex lg:items-center lg:space-x-6">
@@ -196,45 +208,74 @@ const Navigation = React.memo(function Navigation() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Home
+                    <NavigationMenuLink className={cn(
+                      navigationMenuTriggerStyle(),
+                      "relative text-white hover:text-[#FFD700] transition-colors duration-300"
+                    )}>
+                      <RevealUnderline color="#FFD700">
+                        Home
+                      </RevealUnderline>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="text-white hover:text-[#FFD700] transition-colors duration-300">
+                    <RevealUnderline color="#FFD700">
+                      Products
+                    </RevealUnderline>
+                  </NavigationMenuTrigger>
                   <DesktopProductMenu />
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
                   <Link href="/solutions" legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Solutions
+                    <NavigationMenuLink className={cn(
+                      navigationMenuTriggerStyle(),
+                      "relative text-white hover:text-[#FFD700] transition-colors duration-300"
+                    )}>
+                      <RevealUnderline color="#FFD700">
+                        Solutions
+                      </RevealUnderline>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
                   <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      About
+                    <NavigationMenuLink className={cn(
+                      navigationMenuTriggerStyle(),
+                      "relative text-white hover:text-[#FFD700] transition-colors duration-300"
+                    )}>
+                      <RevealUnderline color="#FFD700">
+                        About
+                      </RevealUnderline>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
                   <Link href="/resources" legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Resources
+                    <NavigationMenuLink className={cn(
+                      navigationMenuTriggerStyle(),
+                      "relative text-white hover:text-[#FFD700] transition-colors duration-300"
+                    )}>
+                      <RevealUnderline color="#FFD700">
+                        Resources
+                      </RevealUnderline>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
                   <Link href="/contact" legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Contact
+                    <NavigationMenuLink className={cn(
+                      navigationMenuTriggerStyle(),
+                      "relative text-white hover:text-[#FFD700] transition-colors duration-300"
+                    )}>
+                      <RevealUnderline color="#FFD700">
+                        Contact
+                      </RevealUnderline>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -259,12 +300,14 @@ const Navigation = React.memo(function Navigation() {
               </Button>
             )}
 
-            {/* CTA Button */}
+            {/* Luxury CTA Button */}
             <div className="hidden lg:block">
               <Link href="/demo">
-                <Button variant="ai" size="lg">
-                  {CTA.primary}
-                </Button>
+                <ShimmerHover>
+                  <Button className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] hover:from-[#FFA500] hover:to-[#FFD700] text-[#0A0F1C] px-8 py-2 text-xs tracking-[0.2em] uppercase font-semibold transition-all duration-500 shadow-[0_0_30px_rgba(255,215,0,0.3)] hover:shadow-[0_0_40px_rgba(255,215,0,0.5)] border border-[#FFD700]">
+                    {CTA.primary}
+                  </Button>
+                </ShimmerHover>
               </Link>
             </div>
 
@@ -293,7 +336,7 @@ const Navigation = React.memo(function Navigation() {
           onClose={handleCloseMenu}
         />
       </nav>
-    </header>
+    </motion.header>
   )
 })
 

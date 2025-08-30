@@ -54,9 +54,9 @@ const CTASection = dynamic(() => import("@/components/sections/cta").then(mod =>
 
 export default function HomePage() {
   return (
-    <>
+    <div className="min-h-screen" style={{ backgroundColor: '#0A0F1C' }}>
       <Navigation />
-      <main className="flex-1">
+      <main className="flex-1" style={{ backgroundColor: '#0A0F1C' }}>
         <HeroSection />
         <Suspense fallback={<SectionSkeleton />}>
           <TrustSection />
@@ -78,6 +78,6 @@ export default function HomePage() {
         </Suspense>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

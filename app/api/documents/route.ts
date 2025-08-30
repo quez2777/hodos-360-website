@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
+import { S3StorageClient } from "@/lib/storage/s3-client"
+import { documentCreateSchema, documentQuerySchema } from "@/lib/validations"
+import { ZodError } from "zod"
 import * as crypto from "crypto"
 
 // Allowed file types and their MIME types
@@ -229,6 +232,15 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Validate file using S3StorageClient
+    const fileValidation = S3StorageClient.validateFile(file.name, file.type, file.size)
+    if (!fileValidation.valid) {
+      return NextResponse.json(
+        { error: fileValidation.error },
+        { status: 400 }
+      )
+    }
+
     // Generate file hash for duplicate detection
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex')
@@ -248,21 +260,33 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate unique filename to prevent conflicts
-    const timestamp = Date.now()
-    const randomString = crypto.randomBytes(8).toString('hex')
-    const fileExtension = ALLOWED_FILE_TYPES[file.type]
-    const uniqueFilename = `${timestamp}_${randomString}${fileExtension}`
-
-    // In a real implementation, you would save the file to:
-    // - AWS S3
-    // - Google Cloud Storage
-    // - Local file system with proper security
-    // For now, we'll simulate the file path
-    const filePath = `/uploads/documents/${session.user.id}/${uniqueFilename}`
-
-    // TODO: Implement actual file upload logic here
-    // await uploadFileToStorage(fileBuffer, filePath)
+    // Generate document ID for S3 key
+    const documentId = crypto.randomUUID()
+    
+    // Generate S3 key
+    const s3Key = S3StorageClient.generateS3Key(session.user.id, file.name, documentId)
+    
+    // Upload file to S3
+    try {
+      const uploadResult = await S3StorageClient.uploadFile(
+        fileBuffer,
+        s3Key,
+        file.type,
+        {
+          id: documentId,
+          uploadedBy: session.user.id,
+          caseId: caseId || undefined,
+          tags: [category, isConfidential ? 'confidential' : 'public'],
+        }
+      )
+      console.log('File uploaded to S3:', uploadResult)
+    } catch (uploadError) {
+      console.error('S3 upload failed:', uploadError)
+      return NextResponse.json(
+        { error: "Failed to upload file to storage" },
+        { status: 500 }
+      )
+    }
 
     // Validate description length if provided
     if (description && description.length > 500) {
@@ -274,12 +298,13 @@ export async function POST(request: NextRequest) {
 
     // Prepare document data
     const documentData = {
-      filename: uniqueFilename,
+      id: documentId,
+      filename: file.name.trim(),
       originalName: file.name.trim(),
       fileSize: file.size,
       mimeType: file.type,
       fileHash,
-      filePath,
+      filePath: s3Key, // Store S3 key as file path
       category,
       description: description?.trim() || null,
       isConfidential,
@@ -345,6 +370,82 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { error: "Failed to upload document" },
+      { status: 500 }
+    )
+  }
+}
+
+// DELETE /api/documents - Delete document (expects ?id=documentId)
+export async function DELETE(request: NextRequest) {
+  try {
+    // Authentication check
+    const session = await auth()
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(request.url)
+    const documentId = searchParams.get("id")
+
+    if (!documentId) {
+      return NextResponse.json(
+        { error: "Document ID is required" },
+        { status: 400 }
+      )
+    }
+
+    // Find document and verify ownership
+    const document = await prisma.document.findFirst({
+      where: {
+        id: documentId,
+        userId: session.user.id
+      }
+    })
+
+    if (!document) {
+      return NextResponse.json(
+        { error: "Document not found or access denied" },
+        { status: 404 }
+      )
+    }
+
+    // Delete file from S3
+    try {
+      await S3StorageClient.deleteFile(document.filePath)
+    } catch (s3Error) {
+      console.error('Failed to delete file from S3:', s3Error)
+      // Continue with database deletion even if S3 deletion fails
+    }
+
+    // Delete document record from database
+    await prisma.document.delete({
+      where: { id: documentId }
+    })
+
+    // Log audit trail
+    await prisma.auditLog.create({
+      data: {
+        action: 'DOCUMENT_DELETED',
+        userId: session.user.id,
+        documentId: documentId,
+        filename: document.originalName,
+        fileHash: document.fileHash,
+        timestamp: new Date()
+      }
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: "Document deleted successfully"
+    })
+
+  } catch (error) {
+    console.error("Document DELETE error:", error)
+    return NextResponse.json(
+      { error: "Failed to delete document" },
       { status: 500 }
     )
   }

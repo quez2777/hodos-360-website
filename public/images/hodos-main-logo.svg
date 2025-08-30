@@ -1,0 +1,140 @@
+<svg width="400" height="500" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Golden gradient for main elements -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F4E4C1;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#B8860B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#996515;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Bright gold for star -->
+    <radialGradient id="starGradient">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#FFE55C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Dark blue background gradient -->
+    <radialGradient id="bgGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#1a2f5a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0f1f3d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050a18;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Energy flow gradient -->
+    <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:0.2" />
+    </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Circuit pattern -->
+    <pattern id="circuits" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M0 25h15m5 0h10m5 0h15M25 0v15m0 5v10m0 5v15" 
+            stroke="#2a4a7f" stroke-width="0.5" opacity="0.3" fill="none"/>
+      <circle cx="15" cy="25" r="1.5" fill="#3a5a8f" opacity="0.4"/>
+      <circle cx="25" cy="15" r="1.5" fill="#3a5a8f" opacity="0.4"/>
+      <circle cx="35" cy="25" r="1.5" fill="#3a5a8f" opacity="0.4"/>
+      <circle cx="25" cy="35" r="1.5" fill="#3a5a8f" opacity="0.4"/>
+    </pattern>
+  </defs>
+  
+  <!-- Dark blue background with circuit pattern -->
+  <rect width="400" height="500" fill="url(#bgGradient)"/>
+  <rect width="400" height="500" fill="url(#circuits)" opacity="0.5"/>
+  
+  <!-- Star at top -->
+  <g transform="translate(200, 80)">
+    <path d="M0,-30 L7,-7 L30,-5 L10,10 L15,33 L0,15 L-15,33 L-10,10 L-30,-5 L-7,-7 Z" 
+          fill="url(#starGradient)" 
+          filter="url(#glow)">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 0 0"
+        to="360 0 0"
+        dur="60s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Shield shape with H -->
+  <g transform="translate(200, 200)">
+    <!-- Shield outline -->
+    <path d="M0,-70 L-70,-40 L-70,40 Q-70,90 0,120 Q70,90 70,40 L70,-40 Z" 
+          fill="none" 
+          stroke="url(#goldGradient)" 
+          stroke-width="3"
+          opacity="0.9"/>
+    
+    <!-- Inner shield -->
+    <path d="M0,-65 L-65,-35 L-65,37 Q-65,85 0,113 Q65,85 65,37 L65,-35 Z" 
+          fill="none" 
+          stroke="url(#goldGradient)" 
+          stroke-width="1.5"
+          opacity="0.6"/>
+    
+    <!-- H letter -->
+    <g filter="url(#glow)">
+      <!-- Left vertical -->
+      <rect x="-40" y="-50" width="12" height="100" fill="url(#goldGradient)"/>
+      <!-- Right vertical -->
+      <rect x="28" y="-50" width="12" height="100" fill="url(#goldGradient)"/>
+      <!-- Horizontal bar -->
+      <rect x="-40" y="-6" width="80" height="12" fill="url(#goldGradient)"/>
+    </g>
+    
+    <!-- Energy flow path -->
+    <path d="M0,60 Q-30,70 -40,90 Q-45,110 -30,130 Q0,145 30,130 Q45,110 40,90 Q30,70 0,60" 
+          fill="none" 
+          stroke="url(#flowGradient)" 
+          stroke-width="15"
+          opacity="0.6"
+          filter="url(#glow)">
+      <animate attributeName="stroke-dasharray" 
+               values="0 300;300 0;0 300" 
+               dur="3s" 
+               repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Energy particles -->
+    <circle r="2" fill="#FFD700" opacity="0.8">
+      <animateMotion path="M0,60 Q-30,70 -40,90 Q-45,110 -30,130 Q0,145 30,130 Q45,110 40,90 Q30,70 0,60" 
+                     dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2" fill="#FFD700" opacity="0.8">
+      <animateMotion path="M0,60 Q-30,70 -40,90 Q-45,110 -30,130 Q0,145 30,130 Q45,110 40,90 Q30,70 0,60" 
+                     dur="4s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="4s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2" fill="#FFD700" opacity="0.8">
+      <animateMotion path="M0,60 Q-30,70 -40,90 Q-45,110 -30,130 Q0,145 30,130 Q45,110 40,90 Q30,70 0,60" 
+                     dur="4s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="4s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- HODOS text -->
+  <text x="200" y="380" font-family="Arial, sans-serif" font-size="72" font-weight="300" 
+        text-anchor="middle" fill="#FFFFFF" letter-spacing="8">
+    HODOS
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="200" y="430" font-family="Arial, sans-serif" font-size="20" font-weight="300" 
+        text-anchor="middle" fill="#B8B8B8" letter-spacing="6">
+    ARTIFICIAL INTELLIGENCE
+  </text>
+</svg>

@@ -27,6 +27,7 @@ model User {
   clients     Client[]
   documents   Document[]
   campaigns   MarketingCampaign[]
+  blogPosts   BlogPost[]
 }
 
 model Client {
@@ -124,6 +125,31 @@ model MarketingCampaign {
   @@index([type])
 }
 
+model DemoBooking {
+  id              String   @id @default(uuid())
+  email           String
+  name            String?
+  company         String?
+  phone           String?
+  specialRequests String?
+  preferredDate   DateTime?
+  preferredTime   String?
+  scheduledDate   DateTime?
+  scheduledTime   String?
+  status          String   @default("scheduled") // scheduled, confirmed, completed, cancelled, no-show
+  meetingLink     String?
+  calendarLink    String?
+  demoType        String   @default("video-call") // video-call, phone, in-person
+  duration        String   @default("30 minutes")
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([scheduledDate])
+}
+
 model AuditLog {
   id              String   @id @default(uuid())
   action          String
@@ -133,4 +159,129 @@ model AuditLog {
   fileHash        String?
   virusScanResult Json?
   timestamp       DateTime @default(now())
+}
+
+// Blog System Models
+model BlogPost {
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  content         String   // Full HTML content
+  excerpt         String?  // Meta description/excerpt
+  featuredImage   String?  // URL to featured image
+  status          String   @default("draft") // draft, scheduled, published, archived
+  publishedAt     DateTime?
+  scheduledFor    DateTime?
+  readingTime     Int?     // Estimated reading time in minutes
+  metaTitle       String?  // SEO meta title
+  metaDescription String?  // SEO meta description
+  keywords        String[] // SEO keywords array
+  internalLinks   Json?    // Auto-generated internal links
+  schemaMarkup    Json?    // JSON-LD schema markup
+  seoScore        Int?     // SEO optimization score (0-100)
+  views           Int      @default(0)
+  shares          Int      @default(0)
+  aiGenerated     Boolean  @default(false)
+  generationPrompt String? // Original AI generation prompt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  authorId        String
+
+  // Relations
+  author          User            @relation(fields: [authorId], references: [id])
+  categories      BlogCategory[]
+  tags            BlogTag[]
+  analytics       BlogAnalytics[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@index([authorId])
+}
+
+model BlogCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  color       String?  // Hex color for UI
+  seoTitle    String?
+  seoDescription String?
+  postCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  posts       BlogPost[]
+
+  @@index([slug])
+}
+
+model BlogTag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  postCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  posts       BlogPost[]
+
+  @@index([slug])
+}
+
+model BlogAnalytics {
+  id              String   @id @default(uuid())
+  postId          String
+  date            DateTime @default(now())
+  views           Int      @default(0)
+  uniqueViews     Int      @default(0)
+  timeOnPage      Int?     // Average time in seconds
+  bounceRate      Float?   // Percentage
+  clickThroughRate Float?  // Percentage
+  socialShares    Int      @default(0)
+  organicTraffic  Int      @default(0)
+  referralTraffic Int      @default(0)
+  keywordRankings Json?    // Keyword position tracking
+
+  // Relations
+  post            BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([date])
+}
+
+model ContentCalendar {
+  id            String   @id @default(uuid())
+  title         String
+  scheduledDate DateTime
+  postType      String   @default("blog") // blog, social, email
+  status        String   @default("planned") // planned, in_progress, completed, cancelled
+  assignedTo    String?  // User ID
+  category      String
+  keywords      String[]
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([scheduledDate])
+  @@index([status])
+}
+
+model SEOKeyword {
+  id            String   @id @default(uuid())
+  keyword       String   @unique
+  difficulty    Int?     // 0-100 difficulty score
+  searchVolume  Int?     // Monthly search volume
+  currentRank   Int?     // Current ranking position
+  targetRank    Int?     // Target ranking position
+  url           String?  // URL being tracked
+  lastChecked   DateTime?
+  rankHistory   Json?    // Historical ranking data
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([keyword])
+  @@index([currentRank])
 }
